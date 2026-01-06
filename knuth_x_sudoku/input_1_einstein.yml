@@ -33,5 +33,5 @@
   drink: beer
 - house_color: green
   drink: coffee
-- _add:
+- _question:
     - pet: fish
