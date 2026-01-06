@@ -1,77 +1,37 @@
-attributes:
-  house_no:
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-  color:
-    - red
-    - green
-    - ivory
-    - yellow
-    - blue
-  nationality:
-    - Englishman
-    - Spaniard
-    - Ukrainian
-    - Norwegian
-    - Japanese
-  drink:
-    - coffee
-    - tea
-    - milk
-    - orange juice
-    - water
-  pet:
-    - dog
-    - snails
-    - fox
-    - horse
-    - zebra
-  cigarettes:
-    - Old Gold
-    - Kools
-    - Chesterfields
-    - Lucky Strike
-    - Parliaments
-
-facts:
-  - nationality: Englishman
-    color: red
-  - nationality: Spaniard
-    pet: dog
-  - color: green
-    drink: coffee
-  - nationality: Ukrainian
-    drink: tea
-  - cigarettes: Old Gold
-    pet: snails
-  - color: yellow
-    cigarettes: Kools
-  - drink: milk
-    house_no: 3
-  - nationality: Norwegian
-    house_no: 1
-  - cigarettes: Lucky Strike
-    drink: orange juice
-  - nationality: Japanese
-    cigarettes: Parliaments
-
-neighbors:
-  - dir: right
-    attributes:
-      - color: green
-      - color: ivory
-  - dir: any
-    attributes:
-      - cigarettes: Chesterfields
-      - pet: fox
-  - dir: any
-    attributes:
-      - cigarettes: Kools
-      - pet: horse
-  - dir: any
-    attributes:
-      - nationality: Norwegian
-      - color: blue
+- nation: Norway
+  _#: 1
+- nation: England
+  house_color: red
+- _left: # fisrt is left of second
+  - house_color: green
+  - house_color: white
+- nation: Dutch
+  drink: tea
+- _adj:
+  - cig: light
+  - pet: cat
+- cig: cigars
+  house_color: yellow
+- nation: Germany
+  cig: pipe
+- _#: 3
+  drink: milk
+- _adj:
+  - cig: light
+  - drink: water
+- cig: no_filter
+  pet: birds
+- nation: Sweden
+  pet: dogs
+- _adj:
+  - nation: Norway
+  - house_color: blue
+- _adj:
+    - house_color: yellow
+    - pet: horses
+- cig: menthol
+  drink: beer
+- house_color: green
+  drink: coffee
+- _add:
+    - pet: fish
