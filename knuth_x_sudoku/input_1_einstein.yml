@@ -2,7 +2,7 @@
   _#: 1
 - nation: England
   house_color: red
-- _left: # fisrt is left of second
+- _left: # first is left of second
   - house_color: green
   - house_color: white
 - nation: Dutch
