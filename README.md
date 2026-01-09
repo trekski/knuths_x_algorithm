@@ -1,9 +1,1 @@
-# bits and bobs
- 
-> sss
-> ccc
->
-> > ddd
-> > fff
->
-> fgg
+Knuth's X algorithm applied ot sudoku and einstein puzzle (a.k. "Zebra puzzle")
