@@ -23,7 +23,7 @@
   pet: birds
 - nation: Sweden
   pet: dogs
-- _adj:
+- _left:
   - nation: Norway
   - house_color: blue
 - _adj:
