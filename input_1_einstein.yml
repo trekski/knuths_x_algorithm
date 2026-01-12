@@ -16,17 +16,17 @@
   cig: pipe
 - _#: 3
   drink: milk
-- _right:
+- _adj:
   - cig: light
   - drink: water
 - cig: no_filter
   pet: birds
 - nation: Sweden
   pet: dogs
-- _right:
+- _adj:
   - nation: Norway
   - house_color: blue
-- _right:
+- _adj:
     - house_color: yellow
     - pet: horses
 - cig: menthol
