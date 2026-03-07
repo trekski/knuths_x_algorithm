@@ -1,0 +1,49 @@
+- nation: England
+  color : red
+
+- nation : Spain
+  pet : dog
+
+- drink : coffee
+  color : green
+
+- nation: Ukraine
+  drink : tea
+
+- _right:
+    - color : green
+    - color : ivory
+
+- smoke: old_gold
+  pet : snails
+
+- smoke : kools
+  color : yellow
+
+- _# : 3
+  drink : milk
+
+- nation : Norway
+  _# : 1
+
+- _adj:
+  - smoke : chesterfields
+  - pet : fox
+
+- _adj:
+  - smoke : kools
+  - pet : horse
+
+- smoke : lucky_strike
+  drink : orange_juice
+
+- nation : Japan
+  smoke : parliments
+
+- _adj:
+  - nation : Norway
+  - color : blue
+
+- _question:
+    - pet: zebra
+    - drink : water
