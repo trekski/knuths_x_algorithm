@@ -1,0 +1,99 @@
+# The Greek ship leaves at six and carries coffee.
+
+- nation : Greek
+  departure : six
+
+- nation : Greek
+  cargo : coffee
+
+# The ship in the middle has a black chimney.
+
+- _# : 3
+  color : black
+
+# The English ship leaves at nine.
+
+- nation : English
+  departure: nine
+
+# The French ship with a blue chimney is to the left of a ship that carries coffee.
+
+- nation : French
+  color : blue
+
+- _left :
+  - nation : French
+  - cargo : coffee
+  
+# To the right of the ship carrying cocoa is a ship going to Marseille.
+
+- _right: 
+  - destination : Marseille
+  - cargo: cocoa
+
+# The Brazilian ship is heading for Manila.
+
+- destination : Manila
+  nation : Brazilian
+
+# Next to the ship carrying rice is a ship with a green chimney.
+- _adj:
+  - cargo : rice
+  - color : green
+
+# A ship going to Genoa leaves at five.
+
+- destination : Genoa
+  departure : five
+
+# The Spanish ship leaves at seven and is to the right of the ship going to Marseille.
+
+- nation : Spanish
+  departure : seven
+
+- _right:
+  - nation : Spanish
+  - destination : Marseille
+
+# The ship with a red chimney goes to Hamburg.
+
+- color : red
+  destination : Hamburg
+
+# Next to the ship leaving at seven is a ship with a white chimney.
+
+- _adj:
+  - departure : seven
+  - color : white
+
+# The ship on the border carries corn.
+
+# alternative 1
+# - _#: 1
+#   cargo : corn  
+
+# alternative 2
+- _#: 5
+  cargo : corn
+
+# The ship with a black chimney leaves at eight.
+
+- color : black
+  departure : eight
+
+# The ship carrying corn is anchored next to the ship carrying rice.
+
+- _adj:
+  - cargo : corn
+  - cargo : rice
+
+# The ship to Hamburg leaves at six.
+
+- destination : Hamburg
+  departure : six
+
+# Which ship goes to Port Said? Which ship carries tea? 
+
+- _question:
+  - destination : Port Said
+  - cargo : tea
