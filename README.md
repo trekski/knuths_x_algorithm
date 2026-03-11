@@ -1,6 +1,8 @@
 # Applying Knuth's X Algorithm to solving Zebra Puzzles (a.k.a. Einstein's Puzzle)
 
-In this repositry I keep my program that I wrote to try and apply [Knuth's X algorithm](https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X) to solve the so called [Zebra Puzzles](https://en.wikipedia.org/wiki/Zebra_Puzzle) (a.k.a. "Einstein Puzzles").
+In this repositry I keep progrmas that I wrote to implement Knuth's X algorithm in order to better understand how the algorithm works. I started by creating a simple Sudoku solver. Then, when I got a better grip on the X algorithm, I attempted applying it to solve the so called [Zebra Puzzles](https://en.wikipedia.org/wiki/Zebra_Puzzle) (a.k.a Einstein's Riddle)
+
+This documetn explaisn my approach and work on the latter problem - the Zebra Puzzles.
 
 ## 0. Repository contents
 
@@ -19,7 +21,15 @@ A prerequsite to follow my explanation of how I used the X algorithm to solve Ze
 
 ### 1.1. Constrain satisfaction and set coverage problems
 
-A [Constraint satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem) is a "mathematical question defined as a set of objects whose state must satisfy a number of constraints or limitations."[^1]
+A [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem)(CSP) is a "mathematical question defined as a set of objects whose state must satisfy a number of constraints or limitations."[^1]
+
+Many logical puzzles can be modeled as a CSP[^1], including but not limited to Sudoku and Einstein's Riddle.
+
+A [Set Cover problem](https://en.wikipedia.org/wiki/Set_cover_problem) 
+
+One of the ways to represent some of the CSPs is encoding them as a Set Cover Problem. More specifically: an exact set cover problem is an example of a CSP[^2][^3]. There are known methods to solve set cover problems. Therefore if we are able to map a puzzle or a riddle to a set cover problem, we can solve such a puzzle.
+
+
 
 #### Sudoku as an example of a set coverage problem
 
@@ -59,3 +69,5 @@ A [Constraint satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_sat
 
 
 [^1]: https://en.wikipedia.org/wiki/Constraint_satisfaction_problem
+[^3]: https://en.wikipedia.org/wiki/Set_cover_problem#Related_problems
+[^2]: https://en.wikipedia.org/wiki/Exact_cover
