@@ -2,9 +2,9 @@
 
 In this repositry I keep progrmas that I wrote to implement Knuth's X algorithm in order to better understand how the algorithm works. I started by creating a simple Sudoku solver. Then, when I got a better grip on the X algorithm, I attempted applying it to solve the so called [Zebra Puzzles](https://en.wikipedia.org/wiki/Zebra_Puzzle) (a.k.a Einstein's Riddle)
 
-This documetn explaisn my approach and work on the latter problem - the Zebra Puzzles.
+This document explains my approach and work on the latter problem - the Zebra Puzzles.
 
-## 0. Repository contents
+*Repository contents*
 
 Before I get into explaining my approach and results, here's a quick rundown of the contents of the repository, in suggested order of reading:
 
@@ -14,6 +14,9 @@ Before I get into explaining my approach and results, here's a quick rundown of 
 * `knuth_algo_x_einstein.ipynb` - my first attempt to implement a solver for Einstein Puzzles using Knuth's X algorithm
   * `input_n_einstein.yml` - several examples of Einstein puzzles that can be solved using the above program
 * `scratshpad` - a  "scratchpad" directory with some w.i.p. versions of some of the code. Can safely be ignored.
+ 
+## Abstract
+
 
 ## 1. Prerequisites
 
