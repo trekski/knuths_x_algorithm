@@ -42,7 +42,7 @@ A more sctrict formulation is the [Exact Cover]() problem, which additionally re
 
 One of the ways to represent some of the CSPs is encoding them as a Set Cover Problem. More specifically: an exact set cover problem is an example of a CSP[^2][^3]. There are known methods to solve set cover problems. Therefore if we are able to map a puzzle or a riddle to a set cover problem, we can solve such a puzzle.
 
-#### Sudoku as an example of a set coverage problem
+### 1.2. Sudoku as an example of a set coverage problem
 
 Sudoku can be modelled as an exact cover problem as follows:
 - **elements** the Universe *U* are representing specific **constraints** of the sudoku puzzle, such as:
@@ -135,15 +135,17 @@ The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known i
 
 ### 3.1. Number of combinations and "row culling"
 
-### 3.2. Filling in the sparse matrix
+### 3.2. Iterative filling in the sparse matrix
 
 ## 4. Observations
 
-### 4.1. solution times
+### 4.1. Solution times
 
 ### 4.2. More advanced puzzles
 
-### 4.3. Going back to the "naive" approach
+## 5. Conclusion and next steps
+
+#### Going back to the "naive" approach
 
 
 [^1]: https://en.wikipedia.org/wiki/Constraint_satisfaction_problem
