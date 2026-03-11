@@ -35,7 +35,7 @@ S = \{x : x \in U \}
 \bigcup S = U
 $$
 Find a sub-collection $S^*$ - the smallest subset of the collection, such that $\bigcup X = U$
-A more sctrict formulation is the [Exact Cover]() problem, which additionally requires that any two elememts of $S^*$ (themselves subsets of *U*) are disjoint.
+A more sctrict formulation is the [Exact Cover]() problem, which additionally requires that all elememts of $S^*$ are pairwise disjoint.
 
 One of the ways to represent some of the CSPs is encoding them as a Set Cover Problem. More specifically: an exact set cover problem is an example of a CSP[^2][^3]. There are known methods to solve set cover problems. Therefore if we are able to map a puzzle or a riddle to a set cover problem, we can solve such a puzzle.
 
@@ -64,15 +64,15 @@ Sudoku can be modelled as an exact cover problem as follows:
   - "the grid position (9,9) has a number in it
 - each **possibility** of putting a number in any of the grid positions represetns a fulfillment of **several of the constraints** - i.e. it is a subset of *U*. For example:
   - putting the digit '5' in grid position (2,3) fulfills the following constraints (="is represetnad by a following subset of *U*):
-    - "there is a `5` in the second row"
-    - "there is a `5` in the third column"
-    - "there is a `5` in the fist 3x3 box"
-    - "the grid position (2, 3) has a number in it
+> - - "there is a `5` in the second row"
+> - - "there is a `5` in the third column"
+> - - "there is a `5` in the fist 3x3 box"
+> - - "the grid position (2, 3) has a number in it
   - putting the digit '7' in grid position (4,5) fulfills the following constraints:
-    - "there is a `7` in the fourth row"
-    - "there is a `7` in the fifth column"
-    - "there is a `8` in the fourth 3x3 box"
-    - "the grid position (4,5) has a number in it
+> - - "there is a `7` in the fourth row"
+> - - "there is a `7` in the fifth column"
+> - - "there is a `8` in the fourth 3x3 box"
+> - - "the grid position (4,5) has a number in it
   - etc.
 - each cosntraint must be fulfilled **exactly once** (if there is a `5` in row X, there is exactly **one** `5` in row X, etc.)
   
@@ -91,7 +91,26 @@ What we need though is to properly represent the solution elements and the cosnt
 
 ### 1.4 What is a "Zebra Puzzle"?
 
+The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known in many vartations, most notably in the following (attributed to Einstein, hence the alternative name)[^5]
 
+> There are five houses.
+> - The Englishman lives in the red house.
+> - The Spaniard owns the dog.
+> - Coffee is drunk in the green house.
+> - The Ukrainian drinks tea.
+> - The green house is immediately to the right of the ivory house.
+> - The Old Gold smoker owns snails.
+> - Kools are smoked in the yellow house.
+> - Milk is drunk in the middle house.
+> - The Norwegian lives in the first house.
+> - The man who smokes Chesterfields lives in the house next to the man with the fox.
+> - Kools are smoked in the house next to the house where the horse is kept.
+> - The Lucky Strike smoker drinks orange juice.
+> - The Japanese smokes Parliaments.
+> - The Norwegian lives next to the blue house.
+>
+> Now, who drinks water? Who owns the zebra? 
+> In the interest of clarity, it must be added that each of the five houses is painted a different color, and their inhabitants are of different national extractions, own different pets, drink different beverages and smoke different brands of American cigarets. One other thing: in statement 6, right means your right. 
 
 ## 2. How to model the Zebra Puzzle as a set Coverage problem
 
@@ -128,3 +147,4 @@ What we need though is to properly represent the solution elements and the cosnt
 [^2]: https://en.wikipedia.org/wiki/Set_cover_problem#Related_problems
 [^3]: https://en.wikipedia.org/wiki/Exact_cover
 [^4]: https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X
+[^5]: https://en.wikipedia.org/wiki/Zebra_Puzzle
