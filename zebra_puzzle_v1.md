@@ -24,7 +24,7 @@ Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** sub
 In other words, given a set ***U*** (the universe) and a set ***S*** (the collection) such that:
 
 $$
-\left\\{ 
+\left\\{
 \begin{array}{l}
 S = \\{x : x \in U \\}\\
 \bigcup S = U\end{array}
@@ -139,14 +139,14 @@ Commonly[^7][^8][^9] this is then visualised as a grid (*not* yet the Knuth's sp
 |Color|?|?|?|?|?|
 
 Apart from the "trivial" constraints of the "one and only one" type, we can identify further constraint types in the riddle, as follows:
-* **"identity" constraints** - any statement that forces a person living in a house to have two attributes consiciding, not necessarily naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` also has `value_b` in `dimension_b`*", For example:
+* **"identity" constraints** - any statement that forces a person living in a house to have two attributes coinciding, not necessarily naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` also has `value_b` in `dimension_b`*", For example:
   > "*The Spaniard owns the dog*"
 
   `dimension_a` = "nationality",\
   `value_a` = "Spanish",\
   `dimension_b` = "pet",\
   `value_b` = "dog"
-* **"directed neighbor constraints"** - any statement that forces two people living next to each other to have their attributes consiciding, not  naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` lives on the `direction` of the person whose `dimension_b` has value `value_b`*", For example
+* **"directed neighbor constraints"** - any statement that forces two people living next to each other to have their attributes coinciding, not  naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` lives on the `direction` of the person whose `dimension_b` has value `value_b`*", For example
   > "*The green house is immediately to the right of the ivory house.*"
 
   `dimension_a` = "color",\
@@ -189,7 +189,7 @@ elements of ***S*** could simply be paris of attribute and house number. In othe
 
 However, the puzzle has other constrints too, which are not yet represented in the above example (yet)
 
-### 2.2 First challenge : "identity" contraints
+### 2.2 First challenge : "identity" constraints
 
 On the face of it, the rerpesentation proposed above immediately fails to be able to rerpesent the "identity" constraints.
 After all, the rerpesetnation is designed mostly towards ensuring each attribute is used only once and, but identity type constraint requires two different attributes to be used. In other word this would be a constraint that is fulfuilled not by "one and exactly one" element of *S* but by two elements.
@@ -235,17 +235,68 @@ Element of ***S*** is filling in an entire column of the grid. For example:
    |Pet|-|-|-|cow|-|
    |Color|-|-|-|orange|-|
 
-Upside of this approach is that all "identity" constraints are represented by simply selectin one of the allowed combinations. This generally is feasible using the X algorithm.
+Upside of this approach is that all "identity" constraints are represented by simply selecting one of the allowed combinations. This generally is feasible using the X algorithm.
 
 The downside is that we have now many more elements of ***S***. In the niave approach we needed only as many elements in ***S*** as there were possible attribute values. In the classic puzzle with 5 dimensions (nationality, drink, cigarette, pet, house color), 5 possible values for each dimension and five houses to populate, gave us $|S| = 5 \cdot 5 \cdot 5 = 25$. With the "columnar" approach we have as many elements as there are *combinations* of attributes, and each combination can be assigned to any of the houses, which gives us $|S| = 5 ^5 \cdot 5 = 15 625$
 
-I will discuss later on how we can reduce that number when generating the psarse matrix. Also, during the work on implementing this approach I relised that the "naive" approach can be adapted wo work, giving us the benefit of a small ***S*** while still modelling all cosntraitns properly. That notion will beexpanded upon in a separate project. However, for now, unless otherwise noted, all further work on my solution to the puzzle will be based on using the "columnar" approach.
+I will discuss later on how we can reduce that number when generating the sparse matrix. Also, during the work on implementing this approach I relised that the "naive" approach can be adapted wo work, giving us the benefit of a small ***S*** while still modelling all cosntraitns properly. That notion will be expanded upon in a separate project. However, for now, unless otherwise noted, all further work on my solution to the puzzle will be based on using the "columnar" approach.
 
-### 2.3 Second challenge : directied neighbor constraints
+### 2.3 Second challenge : directed neighbor constraints
 
+Now let's turn our attention to the next, as of yet unhandled, type of cosntraitn - the directed neighbor constraint. I chose to describe this one beforethe non-directional subtype, because it is the next one I was able to figure out how to represent in the sparse matrix. Even though it is used only once in the original puzzle text.
 
+The challenge, again, is that we are requiring a coincidence of two attributes. But instead of both of them being for the same person (living in one house), we require the coincidence to happen for two separate people living in neighboring houses. Using the approach form the first workaround would make the number of elements in ***S*** explode exponentially. After all, now we'd have to list all the combinations of all possible neighbors. This is not practical by any means.
+
+My intuition told me that we can treat these like a key-lock pair. After all selecting the attribute placement of one of the neighbors defined by the constraint directly dictates where to place the other attribute. For example, if we consider the following constraint: 
+
+> "*The green house is immediately to the right of the ivory house*" 
+
+We can see that we have the following options:
+a. `green` is house number `2` (regardless of its values along other dimensions), and `white` is house number `1` (regardless of its values along other dimensions)
+b. `green` is house number `3` and `white` is house number `2`
+c. `green` is house number `4` and `white` is house number `3`
+d. `green` is house number `5` and `white` is house number `4`
+
+we basically have four ways of satisfying the constraint. And the chosen elements of ***S**** are complimentary. Choosing where to put the "green" house directly implies where the "iovry" one has to be.
 
 #### Solution : additional matrix columns
+
+Intuitively by playing around with the concept of key-lock image of the cosntraints, as well as noting that the complimentary nature of the selected items can be understood that selecting one element both implies selecting another **and** ***not*** selecting several others, I came to and abstract representation of the neighbor cosntraint that follows.
+
+For ease of notation let's use the following notation:
+1. if we denote an attribute (dimension and its value) as **A** then **$S_A$** denotes all elements from ***S*** that have that attribute. For example if **A** = "*drink is milk*" then **$S_A$** = set of all elements of ***S*** where `drink` = `coffee`, regardless of the values in other dimensions
+2. Furthermore **$S_{!A}$** denotes all elements from ***S*** that **do not** have the attribute **A**.  In the above example, these would be all elements where `drink` is **anything but coffee** (milk, water, etc.) regardless of the values in other dimensions.
+3. A special type of attribute is the house number. we denote it as ***#n*** (*n* being a number). For example ***#2*** denotes "*a person living in house number `2`*"
+4. we denote the intersection of any **$S_A$** and **$S_A$** as  **$S_{[A,B]}$**. In other words $S_{[A,B]}=S_{[B,A]}=S_A \cap S_B$
+
+My proposition is that we can represent the puzzle constraint expressed in natural language as "*Person with attribute `A` lives left/right of person with attribute `B`*" as a *set* of columns - each corresponding to one of the possible neighbor arrangements in space.
+
+
+Following our example 
+
+> "*The green house is immediately to the right of the ivory house*" 
+
+we assign:
+
+* A = "`house color` is `green`"
+* B = "`house color` is `ivory`"
+
+(NOTE: in this case both A and B sahre the same dimension, but that does not need to be the case always)
+
+and the constraint be represented in the sparse matrix as 
+
+||option 1|option 2|option3|option4|
+|-|-|-|-|-|
+|$S_{A,!B,#2}|⬤|◯|-|-|
+|$S_{A,!B,#3}|-|x|-|-|
+|$S_{A,!B,#4}|-|-|x|-|
+|$S_{A,!B,#5}|-|-|-|x|
+|$S_{!A,B,#1}|-|x|x|x|
+|$S_{!A,B,#2}|x|-|x|x|
+|$S_{!A,B,#3}|x|x|-|x|
+|$S_{!A,B,#4}|x|x|x|-|
+
+
 
 ### 2.4. Third challenge : non-directed neighbor cosntraints
 
