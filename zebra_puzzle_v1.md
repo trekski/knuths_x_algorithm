@@ -266,7 +266,7 @@ Intuitively by playing around with the concept of key-lock image of the cosntrai
 For ease of notation let's use the following notation:
 1. if we denote an attribute (dimension and its value) as **A** then **$S_A$** denotes all elements from ***S*** that have that attribute. For example if **A** = "*drink is milk*" then **$S_A$** = set of all elements of ***S*** where `drink` = `coffee`, regardless of the values in other dimensions
 2. Furthermore **$S_{!A}$** denotes all elements from ***S*** that **do not** have the attribute **A**.  In the above example, these would be all elements where `drink` is **anything but coffee** (milk, water, etc.) regardless of the values in other dimensions.
-3. A special type of attribute is the house number. we denote it as ***#n*** (*n* being a number). For example ***#2*** denotes "*a person living in house number `2`*"
+3. A special type of attribute is the house number. we denote it as ***Ni*** (*i* being a number). For example ***N2*** denotes "*a person living in house number `2`*"
 4. we denote the intersection of any **$S_A$** and **$S_A$** as  **$S_{[A,B]}$**. In other words $S_{[A,B]}=S_{[B,A]}=S_A \cap S_B$
 
 My proposition is that we can represent the puzzle constraint expressed in natural language as "*Person with attribute `A` lives left/right of person with attribute `B`*" as a *set* of columns - each corresponding to one of the possible neighbor arrangements in space.
@@ -287,18 +287,18 @@ and the constraint be represented in the sparse matrix as
 
 ||option 1|option 2|option3|option4|
 |-|:-:|:-:|:-:|:-:|
-|$S_{A,!B,\#2}$|⬤|◯|◯|◯|
-|$S_{A,!B,\#3}$|◯|⬤|◯|◯|
-|$S_{A,!B,\#4}$|◯|◯|⬤|◯|
-|$S_{A,!B,\#5}$|◯|◯|◯|⬤|
-|$S_{!A,B,\#1}$|◯|⬤|⬤|⬤|
-|$S_{!A,B,\#2}$|⬤|◯|⬤|⬤|
-|$S_{!A,B,\#3}$|⬤|⬤|◯|⬤|
-|$S_{!A,B,\#4}$|⬤|⬤|⬤|◯|
+|$S_{A,!B,N2}$|⬤|◯|◯|◯|
+|$S_{A,!B,N3}$|◯|⬤|◯|◯|
+|$S_{A,!B,N4}$|◯|◯|⬤|◯|
+|$S_{A,!B,N5}$|◯|◯|◯|⬤|
+|$S_{!A,B,N1}$|◯|⬤|⬤|⬤|
+|$S_{!A,B,N2}$|⬤|◯|⬤|⬤|
+|$S_{!A,B,N3}$|⬤|⬤|◯|⬤|
+|$S_{!A,B,N4}$|⬤|⬤|⬤|◯|
 
 Note how:
 * we have sets of complimentary attributes (A,!B) and (!A,B) - thisis because the two people are neighbors, not the sameperson, so one having one of the attributes exlcude that person from having the other attribute mentioned in the cosntraint.
-* house indexes for the complimentary attributes ("house color is green" written as $S_{A,!B,\#n}$ where n = 2...5) are shifted by one to the right compared to the indexes for the other attribute ("house color is ivory" written as $S_{!A,B,\#n}$ where n = 1...4)
+* house indexes for the complimentary attributes ("house color is green" written as $S_{A,!B,Ni}$ where i = 2...5) are shifted by one to the right compared to the indexes for the other attribute ("house color is ivory" written as $S_{!A,B,Ni}$ where i = 1...4)
 * the only way to cover all of the options (matrix columns representing atomic constraints) that constitute the puzzle text (puzzle constraint) we need to pick exactly one of the !A,B items and one of the A,!B items, so that their indexes are in the correct order (one is right of the other)
 
 ### 2.4. Third challenge : non-directed neighbor cosntraints
