@@ -111,7 +111,7 @@ In parallel to Sudoku, to model the Zebra Puzzle as a sparse matrix for an Exact
 - what are the elements of our Universe *U*
 - what constraints does the puzzle pose, and how to map them to subsets of *U*
 
-First we can observe that within the riddle text there is mentions of a number people living in the same number of houses. Each person has a set of attributes. For each person the attriburtes are along the same set of "dimensions" (e.g. each person has a "nationality", each person has a "favourite drink"), each with a range of possible values (e.g. for nationality it's: Norwegian, British, German, Swedish etc.). And no two persons share the same value along a common dimension - that is: there is one and only one person who's Norwegian, there is one and only one person who drionks milk, etc. Whaat follows from all the "one and only one" conditions, is that each person in the final solution needs to have a full set of attributes (Nationality, drink, pet, brand of sigarretes etc.) and a house number where they live.
+First we can observe that within the riddle text there is mentions of a number people living in the same number of houses. Each person has a set of attributes. For each person the attriburtes are along the same set of "dimensions" (e.g. each person has a "nationality", each person has a "favourite drink"), each with a range of possible values (e.g. for nationality it's: Norwegian, British, German, Swedish etc.). And no two persons share the same value along a common dimension - that is: there is one and only one person who's Norwegian, there is one and only one person who drionks milk, etc. Whaat follows from all the "one and only one" constraints, is that each person in the final solution needs to have a full set of attributes (Nationality, drink, pet, brand of sigarretes etc.) and a house number where they live.
 
 Commonly[^7][^8][^9] this is then visualised as a grid (*not* yet the Knuth's sparse matrix) that has palces for each house and each *attribute dimension* where *attribute values* are placed, fulfilling the constraints.
 
@@ -134,20 +134,7 @@ Commonly[^7][^8][^9] this is then visualised as a grid (*not* yet the Knuth's sp
 |Pet|?|?|?|?|?|
 |Color|?|?|?|?|?|
 
-### 2.1. Obvious naive representation
-
-Such a visualisation of the problem suggests that elements of *U* could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
-
-Furthermore, the "trivial" constraitns opf each person having one and only one value for each ofthe attributes could be formualted as constraints of what attributes are present in each house:
-* "there is exactly one `nationality` value selected for the person in hosue `1`"
-* "there is exactly one `nationality` value selected for the person in hosue `2`"
-* ...
-* "there is exactly one `nationality` value selected for the person in hosue `5`"
-* "there is exactly one `drink` value selected for the person in hosue `1`"
-* ...
-
-However, the puzzle has other constrints too, which are not yet represented in the above example
-I divided them into following types:
+Apart from the "trivial" constraints of the "one and only one" type, we can identify further constraint types in the riddle, as follows:
 * **"identity" constraints** - any statement that forces a person living in a house to have two attributes consiciding, not necessarily naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` also has `value_b` in `dimension_b`*", For example:
   > "*The Spaniard owns the dog*"
 
@@ -166,7 +153,51 @@ I divided them into following types:
 * **"non-directional neighbor constraints"** - similar to directed neighbor constraints, with the difference that instead of a specific direction ("left" or "right") the constraint is thatthe two people simply live "next to" each other". For example:
   > "*The Norwegian lives next to the blue house.*"
 
+### 2.1. Obvious naive representation
+
+Such a visualisation of the problem suggests that:
+- Elements of *U* could be all possible "one and only one" constraints:
+  - each attribute is used only once:
+    - a person with `nationality` = `Norwegian` lives somewhere
+    - a person with `nationality` = `English` lives somewhere
+    - a person with `nationality` = `Norwegian` lives somewhere
+    - ...
+    - a person with `pet` = `cat` lives somewhere
+    - ...
+  - each house has a person with exactly one of each attributes:
+    - the person living in house `1` has exactly one `nationality` value
+    - the person living in house `1` has exactly one `drink` value
+    - the person living in house `1` has exactly one `cigarette` value
+    - the person living in house `1` has exactly one `pet` value
+    - the person living in house `1` has exactly one `house color` value
+    - the person living in house `2` has exactly one `nationality` value
+    - ...
+
+elements of *S* could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
+
+* "`nationality` = `Norwegian` lives in house `1`"
+* "`nationality` = `Norwegian` lives in house `2`"
+* "`nationality` = `Norwegian` lives in house `3`"
+* "`nationality` = `Norwegian` lives in house `4`"
+* "`nationality` = `Norwegian` lives in house `5`"
+* "`nationality` = `British` lives in house `1`"
+* ...
+
+However, the puzzle has other constrints too, which are not yet represented in the above example (yet)
+
 ### 2.2 First challenge : "identity" contraints
+
+On the face of it, the rerpesentation proposed above immediately fails to be able to rerpesent the "identity" constraints.
+After all, the rerpesetnation is designed mostly towards ensuring each attribute is used only once and, but identity type constraint requires two different attributes to be used. In other word this would be a constraint that is fulfuilled not by "one and exactly one" element of *S* but by two elements.
+
+Let's take for example the statement "*Coffee is drunk in the green house*". Given the proposed *S*, this "constraint" requires us to choose a pair of elements
+* either "*`drink` = `coffee` lives in house `1`*" and "*`house color` = `green` lives in house `1`*"
+* or "*`drink` = `coffee` lives in house `2`*" and "*`house color` = `green` lives in house `2`*"
+* or "*`drink` = `coffee` lives in house `3`*" and "*`house color` = `green` lives in house `3`*"
+* or "*`drink` = `coffee` lives in house `4`*" and "*`house color` = `green` lives in house `4`*"
+* or "*`drink` = `coffee` lives in house `5`*" and "*`house color` = `green` lives in house `5`*"
+
+Somehow one constraint requires two elements. This means that either we cannot model the Zebra Puzzle as an exact vover problem, or we have to re-engineer how we construct *S* and map puzzle text into constraints.
 
 #### Workaround : attribute sets as solution elements
 
