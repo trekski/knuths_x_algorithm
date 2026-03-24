@@ -300,7 +300,7 @@ Then the constraint be represented in the sparse matrix as a collection of atocm
 |$S_{!A,B,N4}$|⬤|⬤|⬤|◯|
 |other[^*]|◯|◯|◯|◯|
 
-[^*]: elements not listed explicitly, i.e. $S_{!A,!B}$ and $S_{A,B}$ (if they exist) 
+[^*]: elements not listed explicitly, i.e. $`S_{!A,!B}`$ and $`S_{A,B}`$ (if they exist) 
 
 
 **Comparison to natural language**
