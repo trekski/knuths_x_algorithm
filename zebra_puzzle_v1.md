@@ -78,13 +78,13 @@ Sudoku can be modelled as an exact cover problem[^4] as follows:
 
 "Algorithm X is an algorithm for solving the exact cover problem. It is a straightforward recursive, nondeterministic, depth-first, backtracking algorithm used by Donald Knuth to demonstrate an efficient implementation called DLX, which uses the dancing links technique."[^5]
 
-To do it it works on a sparse matrix that is an incidence matrix of which solution elements satisfy which cosntraints. THat is in the matrix:
+To do it it works on a sparse matrix that is an incidence matrix of which solution elements satisfy which constraints. THat is in the matrix:
 - columns represent the constraints / elements of the ***U*** universe
 - rows represent available options / elements of the ***S*** collection of subsets of ***U***
 - matrix is filled with `0`` by default except for...
 - if a given option/member of ***S*** (row) fulfills/contains a given cosntraint/element of ***U*** (column), a `1` is put instead
 
-Applying Knuth's X algorithm to thesparse matrix solves the CSP it represtents. What we need though is to properly represent the solution elements and the cosntraints in the matrix.
+Applying Knuth's X algorithm to thesparse matrix solves the CSP it represtents. What we need though is to properly represent the solution elements and the constraints in the matrix.
 
 ### 1.4 What is a "Zebra Puzzle"?
 
@@ -261,7 +261,7 @@ we basically have four ways of satisfying the constraint. And the chosen element
 
 #### Solution : additional matrix columns
 
-Intuitively by playing around with the concept of key-lock image of the cosntraints, as well as noting that the complimentary nature of the selected items can be understood that selecting one element both implies selecting another **and** ***not*** selecting several others, I came to and abstract representation of the neighbor cosntraint that follows.
+Intuitively by playing around with the concept of key-lock image of the constraints, as well as noting that the complimentary nature of the selected items can be understood that selecting one element both implies selecting another **and** ***not*** selecting several others, I came to and abstract representation of the neighbor cosntraint that follows.
 
 For ease of notation let's use the following notation:
 1. if we denote an attribute (dimension and its value) as **A** then **$S_A$** denotes all elements from ***S*** that have that attribute. For example if **A** = "*drink is milk*" then **$S_A$** = set of all elements of ***S*** where `drink` = `coffee`, regardless of the values in other dimensions
@@ -298,6 +298,10 @@ Then the constraint be represented in the sparse matrix as a collection of atocm
 |$S_{!A,B,N2}$|⬤|◯|⬤|⬤|
 |$S_{!A,B,N3}$|⬤|⬤|◯|⬤|
 |$S_{!A,B,N4}$|⬤|⬤|⬤|◯|
+|other[^*]|◯|◯|◯|◯|
+
+[^*]: elements not listed explicitly, i.e. $S_{!A,!B}$ and $S_{A,B}$ (if they exist) 
+
 
 **Comparison to natural language**
 
@@ -310,7 +314,7 @@ Each of the "options" is hard to represent in natural language. Especially that 
 **Completeness**
 
 Note how:
-* We have sets of complimentary attributes (A,!B) and (!A,B) fullfil the new atomic constraints, but not (A,B) - this is because the two people are neighbors, not the same person, so one having one of the attributes exlcude that person from having the other attribute mentioned in the cosntraint.
+* We have sets of complimentary attributes (A,!B) and (!A,B) fullfill the new atomic constraints, but not (A,B) - this is because the two people are neighbors, not the same person, so one having one of the attributes exlcude that person from having the other attribute mentioned in the cosntraint.
 * House indexes for the complimentary attributes ("house color is green" written as $S_{A,!B,Ni}$ where i = 2...5) are shifted by one to the right compared to the indexes for the other attribute ("house color is ivory" written as $S_{!A,B,Ni}$ where i = 1...4) - thisis because the neighbors' relative positions are exactly defined.
 * It is impossible to complete all four options jsut by selecting one of eahc of the $S_{A,!B,Ni}$ elements, because choosing any one of them precludes choosing any other ofthem, because of the "trivial" constraints mentioned earlier.
 * for example choosing any of $S_{A,!B,N2}$ ("*second hosue is green*") makes choosing any of $S_{A,!B,N3}$ through $S_{A,!B,N5}$ impossible, because no other hosue can be green anymore in this situation.
@@ -318,11 +322,11 @@ Note how:
 
 **Selection of solution by de-selecting non-solutions**
 
-Note that for the !A,B elements, combining several "*is not in position x*" statemetns effectively determines the actual position of the other person unambiguously by process of elimination (all possible positions minus the one occupied by A,!B, minus all the ones excluded by the atomic constraints leaves us always with but one option)
+Note that for the  `!A,B` elements, combining several "*is not in position x*" statements effectively determines the actual position of the other person unambiguously by process of elimination. If we select all possible positions minus the one already occupied by `A,!B`, minus all the ones excluded by the atomic constraints, we are left us always with but one option
 
 **Omitting invalid assignments**
 
-NOTE that we also we skip the invalid indexes. This is specifically so we avoid an edge case, where after applyingthe index shifting, one element of ***S*** covers all options. Specifically in our example any member of $S_{!A,B,N5}$ would fulfill all four options. If we cosntruct this case by extension from the already mentioned ones we get:
+Also note that we skip invalid indexes when filling in the sparse matrix. This is specifically to  avoid an edge case, where after applying the index shifting, one element of ***S*** covers all options. Specifically in our example any member of $S_{!A,B,N5}$ would fulfill all four options. If we cosntruct this case by extension from the already mentioned ones we get:
 
 $S_{!A,B,N5}$ = "`ivory` is the color of the house number `5`"
 
@@ -330,7 +334,7 @@ $S_{!A,B,N5}$ = "`ivory` is the color of the house number `5`"
 |-|:-:|:-:|:-:|:-:|
 |$S_{!A,B,N5}$|⬤|⬤|⬤|⬤|
 
-### 2.4. Third challenge : non-directed neighbor cosntraints
+### 2.4. Third challenge : non-directed neighbor constraints
 
 Finally the non-directed neighbors constraints. Initially they look similar to the previous ones. Albeit with onekey difference: selecting one of the neighbors does not unambiguously let us determine the other neighboring attribute. Let's consider the following example:
 
@@ -341,7 +345,7 @@ we assign:
 * A = "`nationality` is `Norwegian`"
 * B = "`house color` is `blue`"
 
-This time we can see that selectng where to place the first attribute sometimes leaves us with two possible placements for the second one:
+This time we can see that selecting where to place the first attribute sometimes leaves us with two possible placements for the second one:
 * `Norwegian` is in house number `1` (regardless of its values along other dimensions), and `blue` is house number `2` (regardless of its values along other dimensions), BUT
 * `Norwegian` is in house number `2` and
    - either `blue` is house number `1`
@@ -354,11 +358,9 @@ This time we can see that selectng where to place the first attribute sometimes 
    - or `blue` is house number `2`
 * `Norwegian` is in house number `5` and `blue` is house number `4`
 
-Somehow we need to select one of the options and then (if needed) its "sub-option". 
+We need to be able to somehow select one of the options and then (if needed) its "sub-option". 
 
 #### Solution : even mode additional matrix columns and rows
-
-**Proposal**
 
 Note: all sub-options can be grouped pairwise and rearranged on the above list. Like that:
 * the two neightobrs in question live in houses `1` and `2`
@@ -368,6 +370,8 @@ Note: all sub-options can be grouped pairwise and rearranged on the above list. 
   * either `Norwegian` lives **left** (2) and `blue` is **right** (3)
   * or `Norwegian` lives **right** (3) and `blue` is **left** (2)
 * ...
+
+**Proposal**
 
 Building on the previously proposed key-lock arrangement of the sparse matrix I propose a solution in which we are able to select one of the new super-oprions by adding new synthetic rows to the matrix. Each of those rows would represent placing the neightbors in a given place overal. Or rather: key in our possible selection of exact neighbors. then selection ofthe actual attribute placement would follow by complimenting that pre-selection.
 
@@ -406,7 +410,7 @@ As with the directed neighbors, so here we describe the solution to be selecteed
 
 This representation is even harder to translate back int onatural language, but by now hopefully you can see how the puzzle constraints expressed in natural language can be modelled by more elaborate combinatiosn of rows and columns in the sparse matrix all the while preserving the cosntraint's "logic".
 
-As wit the directed neighbors, care needs to be taken to omit invalid combinations of house indexes when cosntrictingthe synthetic rows and atomic constraint columns.
+As with the directed neighbors, care needs to be taken to omit invalid combinations of house indexes when cosntructing the synthetic rows and atomic constraint columns.
 
 ## 3. Implementation considerations
 
