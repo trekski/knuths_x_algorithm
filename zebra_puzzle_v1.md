@@ -175,12 +175,12 @@ Such a visualisation of the problem suggests that:
 
 elements of ***S*** could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
 
-* "`nationality` = `Norwegian` lives in house `1`"
-* "`nationality` = `Norwegian` lives in house `2`"
-* "`nationality` = `Norwegian` lives in house `3`"
-* "`nationality` = `Norwegian` lives in house `4`"
-* "`nationality` = `Norwegian` lives in house `5`"
-* "`nationality` = `British` lives in house `1`"
+* "person with `nationality` = `Norwegian` lives in house `1`"
+* "person with `nationality` = `Norwegian` lives in house `2`"
+* "person with `nationality` = `Norwegian` lives in house `3`"
+* "person with `nationality` = `Norwegian` lives in house `4`"
+* "person with `nationality` = `Norwegian` lives in house `5`"
+* "person with `nationality` = `British` lives in house `1`"
 * ...
 
 However, the puzzle has other constrints too, which are not yet represented in the above example (yet)
@@ -201,7 +201,45 @@ Somehow one constraint requires two elements. This means that either we cannot m
 
 #### Workaround : attribute sets as solution elements
 
+A workaround to the above problem I came up with is to construct the elements of ***S*** not as single attributes placed in slots of the solution grid, but as full columns. That is:
+
+**Naive approach**
+element of ***S*** placiong an attribute in the grid. For example:
+
+1. statement: "*person with `pet` = `cow` lives in house `4`*"
+
+2. grid fill-in:
+   | |house #1|house #2|house #3|house #4|house #5|
+   |-|---|---|---|---|---|
+   |Nationality|-|-|-|-|-|
+   |Drink|-|-|-|-|-|
+   |Cigarette|-|-|-|-|-|
+   |Pet|-|-|-|**cow**|-|
+   |Color|-|-|-|-|-|
+
+**Columnar approach**
+Element of ***S*** is filling in an entire column of the grid. For example:
+
+1. statement: "*Person living in house `4` is of `Dutch` nationality, drinks `Whiskey`, smokes a `pipe`, has a pet `cow` and their hosuoe is painted `orange`"
+
+2. grid fill-in:
+   | |house #1|house #2|house #3|house #4|house #5|
+   |-|---|---|---|---|---|
+   |Nationality|-|-|-|Dutch|-|
+   |Drink|-|-|-|Whiskey|-|
+   |Cigarette|-|-|-|pipe|-|
+   |Pet|-|-|-|cow|-|
+   |Color|-|-|-|orange|-|
+
+Upside of this approach is that all "identity" constraints are represented by simply selectin one of the allowed combinations. This generally is feasible using the X algorithm.
+
+The downside is that we have now many more elements of ***S***. In the niave approach we needed only as many elements in ***S*** as there were possible attribute values. In the classic puzzle with 5 dimensions (nationality, drink, cigarette, pet, house color), 5 possible values for each dimension and five houses to populate, gave us $|S| = 5 \cdot 5 \cdot 5 = 25$. With the "columnar" approach we have as many elements as there are *combinations* of attributes, and each combination can be assigned to any of the houses, which gives us $|S| = 5 ^5 \cdot 5 = 15 625$
+
+I will discuss later on how we can reduce that number when generating the psarse matrix. Also, during the work on implementing this approach I relised that the "naive" approach can be adapted wo work, giving us the benefit of a small ***S*** while still modelling all cosntraitns properly. That notion will beexpanded upon in a separate project. However, for now, unless otherwise noted, all further work on my solution to the puzzle will be based on using the "columnar" approach.
+
 ### 2.3 Second challenge : directied neighbor cosntraints
+
+
 
 #### Solution : additional matrix columns
 
