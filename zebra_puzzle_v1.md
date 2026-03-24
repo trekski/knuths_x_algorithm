@@ -287,16 +287,19 @@ and the constraint be represented in the sparse matrix as
 
 ||option 1|option 2|option3|option4|
 |-|:-:|:-:|:-:|:-:|
-|$S_{A,!B,#2}|⬤|◯|◯|◯|
-|$S_{A,!B,#3}|◯|⬤|◯|◯|
-|$S_{A,!B,#4}|◯|◯|⬤|◯|
-|$S_{A,!B,#5}|◯|◯|◯|⬤|
-|$S_{!A,B,#1}|◯|⬤|⬤|⬤|
-|$S_{!A,B,#2}|⬤|◯|⬤|⬤|
-|$S_{!A,B,#3}|⬤|⬤|◯|⬤|
-|$S_{!A,B,#4}|⬤|⬤|⬤|◯|
+|$S_{A,!B,\#2}$|⬤|◯|◯|◯|
+|$S_{A,!B,\#3}$|◯|⬤|◯|◯|
+|$S_{A,!B,\#4}$|◯|◯|⬤|◯|
+|$S_{A,!B,\#5}$|◯|◯|◯|⬤|
+|$S_{!A,B,\#1}$|◯|⬤|⬤|⬤|
+|$S_{!A,B,\#2}$|⬤|◯|⬤|⬤|
+|$S_{!A,B,\#3}$|⬤|⬤|◯|⬤|
+|$S_{!A,B,\#4}$|⬤|⬤|⬤|◯|
 
-
+Note how:
+* we have sets of complimentary attributes (A,!B) and (!A,B) - thisis because the two people are neighbors, not the sameperson, so one having one of the attributes exlcude that person from having the other attribute mentioned in the cosntraint.
+* house indexes for the complimentary attributes ("house color is green" written as $S_{A,!B,\#n}$ where n = 2...5) are shifted by one to the right compared to the indexes for the other attribute ("house color is ivory" written as $S_{!A,B,\#n}$ where n = 1...4)
+* the only way to cover all of the options (matrix columns representing atomic constraints) that constitute the puzzle text (puzzle constraint) we need to pick exactly one of the !A,B items and one of the A,!B items, so that their indexes are in the correct order (one is right of the other)
 
 ### 2.4. Third challenge : non-directed neighbor cosntraints
 
