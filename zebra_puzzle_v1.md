@@ -305,7 +305,7 @@ Then the constraint be represented in the sparse matrix as a collection of atocm
 
 **Comparison to natural language**
 
-Each of the "options" is hard to represent in natural language. Especially that only in ocncert do they express the more "natural" concept of "*`A` is left/right of *B*`". Nevertheless they could be translated into something like:
+Each of the "options" is hard to represent in natural language. Especially that only in ocncert do they express the more "natural" concept of "*`A` is left/right of `B`*". Nevertheless they could be translated into something like:
 * option 1 = "second house is green OR the ivory house is in not in position 1"
 * option 2 = "third house is green OR the ivory house is in not in position 2"
 * option 3 = "fourth house is OR the ivory house is in not in position 3"
