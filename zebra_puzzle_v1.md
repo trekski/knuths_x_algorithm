@@ -240,7 +240,7 @@ The downside is that we have now many more elements of ***S***. In the niave app
 
 I will discuss later on how we can reduce that number when generating the psarse matrix. Also, during the work on implementing this approach I relised that the "naive" approach can be adapted wo work, giving us the benefit of a small ***S*** while still modelling all cosntraitns properly. That notion will beexpanded upon in a separate project. However, for now, unless otherwise noted, all further work on my solution to the puzzle will be based on using the "columnar" approach.
 
-### 2.3 Second challenge : directied neighbor cosntraints
+### 2.3 Second challenge : directied neighbor constraints
 
 
 
