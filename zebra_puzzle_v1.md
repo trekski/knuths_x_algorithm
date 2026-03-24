@@ -27,10 +27,11 @@ S = \{x : x \in U \}
 \\
 \bigcup S = U
 $$
-Find a sub-collection $S^*$ - the smallest subset of the collection, such that $\bigcup X = U$
-A more sctrict formulation is the [Exact Cover]() problem, which additionally requires that all elememts of $S^*$ are pairwise disjoint.
+Find a sub-collection $S^*$ - the smallest subset of the collection, such that $\bigcup S^* = U$.
 
-One of the ways to represent some of the CSPs is encoding them as a Set Cover Problem. More specifically: an exact set cover problem is an example of a CSP[^2][^3]. There are known methods to solve set cover problems. Therefore if we are able to map a puzzle or a riddle to a set cover problem, we can solve such a puzzle.
+A more sctrict formulation is the [Exact Cover](https://en.wikipedia.org/wiki/Exact_cover) problem, which additionally requires that all elememts of $S^*$ are pairwise disjoint.
+
+One of the ways to represent some of the CSPs is encoding them as a n Exact Cover problem[^2][^3]. There are known methods to solve set cover problems, for example Knuth's X algorithm. Therefore if we are able to map a puzzle or a riddle to n exact cover problem, we can solve such a puzzle.
 
 ### 1.2. Sudoku as an example of a set coverage problem
 
@@ -79,8 +80,7 @@ To do it it works on a sparse matrix that is an incidence matrix of which soluti
 - matrix is filled with `0`` by default except for...
 - if a given option/member of *S* (row) fulfills/contains a given cosntraint/element of *U* (column), a `1` is put instead
 
-Applying Knuth's X algorithm solves the CSP it represtents.
-What we need though is to properly represent the solution elements and the cosntraints in the matrix.
+Applying Knuth's X algorithm to thesparse matrix solves the CSP it represtents. What we need though is to properly represent the solution elements and the cosntraints in the matrix.
 
 ### 1.4 What is a "Zebra Puzzle"?
 
@@ -107,7 +107,40 @@ The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known i
 
 ## 2. How to model the Zebra Puzzle as a Set Coverage Problem
 
-### 2.1. Obvious naive representation 
+In parallel to Sudoku, to model the Zebra Puzzle as a sparse matrix for an Exact Cover problem, we need to decide:
+- what are the elements of our Universe *U*
+- what constraints does the puzzle pose, and how to map them to subsets of *U*
+
+First we can observe that within the riddle text there is mentions of a number people living in the same number of houses. Each person has a set of attributes. For each person the attriburtes are along the same set of "dimensions" (e.g. each person has a "nationality", each person has a "favourite drink"), each with a range of possible values (e.g. for nationality it's: Norwegian, British, German, Swedish etc.). And no two persons share the same value along a common dimension - that is: there is one and only one person who's Norwegian, there is one and only one person who drionks milk, etc. Whaat follows from all the "one and only one" conditions, is that each person in the final solution needs to have a full set of attributes (Nationality, drink, pet, brand of sigarretes etc.) and a house number where they live.
+
+Commonly[^7][^8][^9] this is then visualised as a grid (*not* yet the Knuth's sparse matrix) that has palces for each house and each *attribute dimension* where *attribute values* are placed, fulfilling the constraints.
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+  <div>
+    **available attributes**
+    * Nationality : Norwegian
+    * Nationality : British
+    * Nationality : German
+    * Nationality : Dutch
+    * Nationality : Swedish
+    * Drink : Milk
+    * Drink : Water
+    * ...
+    * 
+  </div>
+  <div>
+    **Partial solution**
+    | |house #1|house #2|house #3|house #4|house #5|
+    |-|---|---|---|---|---|
+    | |   |   |   |   |   |
+    | |   |   |   |   |   |
+    | |   |   |   |   |   |
+  </div>
+</div>
+
+### 2.1. Obvious naive representation
+
+
 
 ### 2.2 First challenge : "identity" contraints
 
@@ -144,3 +177,6 @@ The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known i
 [^4]:  https://en.wikipedia.org/wiki/Sudoku_solving_algorithms#Constraint_programming
 [^5]: https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X
 [^6]: https://en.wikipedia.org/wiki/Zebra_Puzzle
+[^7]: https://www.wikihow.com/Einstein%27s-Riddle
+[^8]: https://medium.com/brainzilla/einsteins-riddle-step-by-step-tutorial-on-how-to-solve-the-world-s-hardest-puzzle-46bcf054a7c7
+[^9]: https://youtu.be/HaNSHQOrSX8?t=1255
