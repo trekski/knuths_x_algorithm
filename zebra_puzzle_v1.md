@@ -19,9 +19,9 @@ A [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_sat
 Many logical puzzles can be modeled as a CSP[^1], including but not limited to Sudoku and Einstein's Riddle.
 
 A [Set Cover problem](https://en.wikipedia.org/wiki/Set_cover_problem) can be worded as :
-Given a set *U*  (the universe), and a collection *S* of a given *m* subsets of *U* whose union equals the universe, the set cover problem is to identify a smallest sub-collection of *S* whose union equals the universe.
+Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** subsets of ***U*** whose union equals the universe, the set cover problem is to identify a smallest sub-collection of ***S*** whose union equals the universe.
 
-In other words, given a set *U* (the universe) and a set *S* (the collection) such that:
+In other words, given a set ***U*** (the universe) and a set ***S*** (the collection) such that:
 $$
 S = \{x : x \in U \}
 \\
@@ -75,10 +75,10 @@ Sudoku can be modelled as an exact cover problem[^4] as follows:
 "Algorithm X is an algorithm for solving the exact cover problem. It is a straightforward recursive, nondeterministic, depth-first, backtracking algorithm used by Donald Knuth to demonstrate an efficient implementation called DLX, which uses the dancing links technique."[^5]
 
 To do it it works on a sparse matrix that is an incidence matrix of which solution elements satisfy which cosntraints. THat is in the matrix:
-- columns represent the constraints / elements of the *U* universe
-- rows represent available options / elements of the *S* collection of subsets of *U*
+- columns represent the constraints / elements of the ***U*** universe
+- rows represent available options / elements of the ***S*** collection of subsets of ***U***
 - matrix is filled with `0`` by default except for...
-- if a given option/member of *S* (row) fulfills/contains a given cosntraint/element of *U* (column), a `1` is put instead
+- if a given option/member of ***S*** (row) fulfills/contains a given cosntraint/element of ***U*** (column), a `1` is put instead
 
 Applying Knuth's X algorithm to thesparse matrix solves the CSP it represtents. What we need though is to properly represent the solution elements and the cosntraints in the matrix.
 
@@ -108,8 +108,8 @@ The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known i
 ## 2. How to model the Zebra Puzzle as a Set Coverage Problem
 
 In parallel to Sudoku, to model the Zebra Puzzle as a sparse matrix for an Exact Cover problem, we need to decide:
-- what are the elements of our Universe *U*
-- what constraints does the puzzle pose, and how to map them to subsets of *U*
+- what are the elements of our Universe ***U***
+- what constraints does the puzzle pose, and how to map them to subsets of ***U***
 
 First we can observe that within the riddle text there is mentions of a number people living in the same number of houses. Each person has a set of attributes. For each person the attriburtes are along the same set of "dimensions" (e.g. each person has a "nationality", each person has a "favourite drink"), each with a range of possible values (e.g. for nationality it's: Norwegian, British, German, Swedish etc.). And no two persons share the same value along a common dimension - that is: there is one and only one person who's Norwegian, there is one and only one person who drionks milk, etc. Whaat follows from all the "one and only one" constraints, is that each person in the final solution needs to have a full set of attributes (Nationality, drink, pet, brand of sigarretes etc.) and a house number where they live.
 
@@ -173,7 +173,7 @@ Such a visualisation of the problem suggests that:
     - the person living in house `2` has exactly one `nationality` value
     - ...
 
-elements of *S* could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
+elements of ***S*** could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
 
 * "`nationality` = `Norwegian` lives in house `1`"
 * "`nationality` = `Norwegian` lives in house `2`"
@@ -190,14 +190,14 @@ However, the puzzle has other constrints too, which are not yet represented in t
 On the face of it, the rerpesentation proposed above immediately fails to be able to rerpesent the "identity" constraints.
 After all, the rerpesetnation is designed mostly towards ensuring each attribute is used only once and, but identity type constraint requires two different attributes to be used. In other word this would be a constraint that is fulfuilled not by "one and exactly one" element of *S* but by two elements.
 
-Let's take for example the statement "*Coffee is drunk in the green house*". Given the proposed *S*, this "constraint" requires us to choose a pair of elements
+Let's take for example the statement "*Coffee is drunk in the green house*". Given the proposed ***S***, this "constraint" requires us to choose a pair of elements
 * either "*`drink` = `coffee` lives in house `1`*" and "*`house color` = `green` lives in house `1`*"
 * or "*`drink` = `coffee` lives in house `2`*" and "*`house color` = `green` lives in house `2`*"
 * or "*`drink` = `coffee` lives in house `3`*" and "*`house color` = `green` lives in house `3`*"
 * or "*`drink` = `coffee` lives in house `4`*" and "*`house color` = `green` lives in house `4`*"
 * or "*`drink` = `coffee` lives in house `5`*" and "*`house color` = `green` lives in house `5`*"
 
-Somehow one constraint requires two elements. This means that either we cannot model the Zebra Puzzle as an exact vover problem, or we have to re-engineer how we construct *S* and map puzzle text into constraints.
+Somehow one constraint requires two elements. This means that either we cannot model the Zebra Puzzle as an exact cover problem, or we have to re-engineer how we construct ***S*** and map puzzle text into constraints.
 
 #### Workaround : attribute sets as solution elements
 
