@@ -22,10 +22,8 @@ A [Set Cover problem](https://en.wikipedia.org/wiki/Set_cover_problem) can be wo
 Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** subsets of ***U*** whose union equals the universe, the set cover problem is to identify a smallest sub-collection of ***S*** whose union equals the universe.
 
 In other words, given a set ***U*** (the universe) and a set ***S*** (the collection) such that:
-$$
-S = \{x : x \in U \}\\
-\bigcup S = U
-$$
+$$S = \{x : x \in U \}\\
+\bigcup S = U$$
 Find a sub-collection $S^*$ - the smallest subset of the collection, such that $\bigcup S^* = U$.
 
 A more sctrict formulation is the [Exact Cover](https://en.wikipedia.org/wiki/Exact_cover) problem, which additionally requires that all elememts of $S^*$ are pairwise disjoint.
