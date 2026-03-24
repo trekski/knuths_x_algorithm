@@ -269,7 +269,7 @@ For ease of notation let's use the following notation:
 3. A special type of attribute is the house number. we denote it as ***Ni*** (*i* being a number). For example ***N2*** denotes "*a person living in house number `2`*"
 4. we denote the intersection of any **$S_A$** and **$S_A$** as  **$S_{[A,B]}$**. In other words $S_{[A,B]}=S_{[B,A]}=S_A \cap S_B$
 
-*Proposal*
+**Proposal**
 
 My proposition is that we can represent the puzzle constraint expressed in natural language as "*Person with attribute `A` lives left/right of person with attribute `B`*" as a *set* of columns - each corresponding to one of the possible neighbor arrangements in space.
 
@@ -297,7 +297,7 @@ and the constraint be represented in the sparse matrix as
 |$S_{!A,B,N3}$|⬤|⬤|◯|⬤|
 |$S_{!A,B,N4}$|⬤|⬤|⬤|◯|
 
-*Completeness*
+**Completeness**
 
 Note how:
 * We have sets of complimentary attributes (A,!B) and (!A,B) fullfil the new atomic constraints, but not (A,B) - this is because the two people are neighbors, not the same person, so one having one of the attributes exlcude that person from having the other attribute mentioned in the cosntraint.
@@ -307,7 +307,7 @@ Note how:
 * The representation is complete. The only way to cover all of the options (matrix columns representing atomic constraints) that constitute the puzzle text (puzzle constraint) we need to pick exactly one of the !A,B items and one of the A,!B items, so that their indexes are in the correct order (one is right of the other). 
   
 
-*Comparison to natural language*
+**Comparison to natural language**
 
 Each of the "options" is hard to represent in natural language. Especially that only in ocncert do they express the more "natural" concept of "*`A` is left/right of *B*`". Nevertheless they could be translated into something like:
 * option 1 = "second house is green OR the ivory house is in not in position 1"
@@ -315,11 +315,11 @@ Each of the "options" is hard to represent in natural language. Especially that 
 * option 3 = "fourth house is OR the ivory house is in not in position 3"
 * option 4 = "fifth house is OR the ivory house is in not in position 4"
 
-*Selection of solution by de-selecting non-solutions*
+**Selection of solution by de-selecting non-solutions**
 
 Note that for the !A,B elements, combining several "*is not in position x*" statemetns effectively determines the actual position of the other person unambiguously by process of elimination (all possible positions minus the one occupied by A,!B, minus all the ones excluded by the atomic constraints leaves us always with but one option)
 
-*Omitting invalid assignments*
+**Omitting invalid assignments**
 
 NOTE that we also we skip the invalid indexes. This is specifically so we avoid an edge case, where after applyingthe index shifting, one element of ***S*** covers all options. Specifically in our example any member of $S_{!A,B,N5}$ would fulfill all four options. If we cosntruct this case by extension from the already mentioned ones we get:
 
@@ -357,8 +357,7 @@ Somehow we need to select one of the options and then (if needed) its "sub-optio
 
 #### Solution : even mode additional matrix columns and rows
 
-
-*Proposal*
+**Proposal**
 
 Note: all sub-options can be grouped pairwise and rearranged on the above list. Like that:
 * the two neightobrs in question live in houses `1` and `2`
@@ -371,7 +370,7 @@ Note: all sub-options can be grouped pairwise and rearranged on the above list. 
 
 Building on the previously proposed key-lock arrangement of the sparse matrix I propose a solution in which we are able to select one of the new super-oprions by adding new synthetic rows to the matrix. Each of those rows would represent placing the neightbors in a given place overal. Or rather: key in our possible selection of exact neighbors. then selection ofthe actual attribute placement would follow by complimenting that pre-selection.
 
-To visualise the above:
+To visualise the above in the sparse matrix:
 
 ||option 1|option 2|option 3|option 4|option 5|
 |-|:-:|:-:|:-:|:-:|:-:|
@@ -390,7 +389,7 @@ To visualise the above:
 |$S_{!A,B,N4}$|◯|◯|◯|⬤|◯|
 |$S_{!A,B,N5}$|◯|◯|◯|◯|⬤|
 
-*Completeness*
+**Completeness**
 
 Similarily to above points about directed neighbors:
 * no two rows from the $S_{!A,B,Ni}$ group can be chosen due to "trivial" constraints
@@ -399,6 +398,14 @@ Similarily to above points about directed neighbors:
   1. one of the "neighbors are in $S_{Ni}$ and $S_{Nj}$ elements - the keying element
   2. one of the itmes to be the first neighbor (in whichever of the two possible places)
   3. another item to be the other neighbor occupying the remainig place.
+
+**Other notes**
+
+As with the directed neighbors, so here we describe the solution to be selecteed by uisng complimentary key-lock entires in the matrix, and somehow de-selectign the elemnents undesired in the solution.
+
+This representation is even harder to translate back int onatural language, but by now hopefully you can see how the puzzle constraints expressed in natural language can be modelled by more elaborate combinatiosn of rows and columns in the sparse matrix all the while preserving the cosntraint's "logic".
+
+As wit the directed neighbors, care needs to be taken to omit invalid combinations of house indexes when cosntrictingthe synthetic rows and atomic constraint columns.
 
 ## 3. Implementation considerations
 
