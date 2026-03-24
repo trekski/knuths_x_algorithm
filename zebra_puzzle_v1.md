@@ -115,32 +115,56 @@ First we can observe that within the riddle text there is mentions of a number p
 
 Commonly[^7][^8][^9] this is then visualised as a grid (*not* yet the Knuth's sparse matrix) that has palces for each house and each *attribute dimension* where *attribute values* are placed, fulfilling the constraints.
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-  <div>
-    **available attributes**
-    * Nationality : Norwegian
-    * Nationality : British
-    * Nationality : German
-    * Nationality : Dutch
-    * Nationality : Swedish
-    * Drink : Milk
-    * Drink : Water
-    * ...
-    * 
-  </div>
-  <div>
-    **Partial solution**
-    | |house #1|house #2|house #3|house #4|house #5|
-    |-|---|---|---|---|---|
-    | |   |   |   |   |   |
-    | |   |   |   |   |   |
-    | |   |   |   |   |   |
-  </div>
-</div>
+**available attributes**
+* Nationality : Norwegian
+* ~~Nationality : British~~
+* Nationality : German
+* Nationality : Dutch
+* Nationality : Swedish
+* Drink : Milk
+* ~~Drink : Water~~
+* ...
+
+**Partial solution**
+| |house #1|house #2|house #3|house #4|house #5|
+|-|---|---|---|---|---|
+|Nationality|?|?|British|?|?|
+|Drink|?|Water|?|?|?|
+|Cigarette|?|?|?|?|?|
+|Pet|?|?|?|?|?|
+|Color|?|?|?|?|?|
 
 ### 2.1. Obvious naive representation
 
+Such a visualisation of the problem suggests that elements of *U* could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
 
+Furthermore, the "trivial" constraitns opf each person having one and only one value for each ofthe attributes could be formualted as constraints of what attributes are present in each house:
+* "there is exactly one `nationality` value selected for the person in hosue `1`"
+* "there is exactly one `nationality` value selected for the person in hosue `2`"
+* ...
+* "there is exactly one `nationality` value selected for the person in hosue `5`"
+* "there is exactly one `drink` value selected for the person in hosue `1`"
+* ...
+
+However, the puzzle has other constrints too, which are not yet represented in the above example
+I divided them into following types:
+* **"identity" constraints** - any statement that forces a person living in a house to have two attributes consiciding, not necessarily naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` also has `value_b` in `dimension_b`*", For example:
+  > "*The Spaniard owns the dog*"
+
+  `dimension_a` = "nationality",\
+  `value_a` = "Spanish",\
+  `dimension_b` = "pet",\
+  `value_b` = "dog"
+* **"directed neighbor constraints"** - any statement that forces two people living next to each other to have their attributes consiciding, not  naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` lives on the `direction` of the person whose `dimension_b` has value `value_b`*", For example
+  > "*The green house is immediately to the right of the ivory house.*"
+
+  `dimension_a` = "color",\
+  `value_a` = "green",\
+  `dimension_b` = "color",\
+  `value_b` = "ivory",\
+  `direction` = "right"
+* **"non-directional neighbor constraints"** - similar to directed neighbor constraints, with the difference that instead of a specific direction ("left" or "right") the constraint is thatthe two people simply live "next to" each other". For example:
+  > "*The Norwegian lives next to the blue house.*"
 
 ### 2.2 First challenge : "identity" contraints
 
