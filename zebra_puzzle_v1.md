@@ -282,9 +282,11 @@ we assign:
 * A = "`house color` is `green`"
 * B = "`house color` is `ivory`"
 
-(NOTE: in this case both A and B sahre the same dimension, but that does not need to be the case always)
+(NOTE: in this case both A and B shhre the same dimension, but that does not need to be the case always)
 
-and the constraint be represented in the sparse matrix as 
+Given our notation and assignments, for example $S_{A,!B,N4}$ menas "*all elements of **S** where `house color` is `green` and `house` color is not `ivory` and house number is `4`*" (all the while pet, cigarette, nationality and drink are of anny avaiallbe value).
+
+Then the constraint be represented in the sparse matrix as a collection of atocmic constraint columns implementign the key-lock approach as follows:
 
 ||option 1|option 2|option 3|option 4|
 |-|:-:|:-:|:-:|:-:|
@@ -297,6 +299,14 @@ and the constraint be represented in the sparse matrix as
 |$S_{!A,B,N3}$|⬤|⬤|◯|⬤|
 |$S_{!A,B,N4}$|⬤|⬤|⬤|◯|
 
+**Comparison to natural language**
+
+Each of the "options" is hard to represent in natural language. Especially that only in ocncert do they express the more "natural" concept of "*`A` is left/right of *B*`". Nevertheless they could be translated into something like:
+* option 1 = "second house is green OR the ivory house is in not in position 1"
+* option 2 = "third house is green OR the ivory house is in not in position 2"
+* option 3 = "fourth house is OR the ivory house is in not in position 3"
+* option 4 = "fifth house is OR the ivory house is in not in position 4"
+
 **Completeness**
 
 Note how:
@@ -305,15 +315,6 @@ Note how:
 * It is impossible to complete all four options jsut by selecting one of eahc of the $S_{A,!B,Ni}$ elements, because choosing any one of them precludes choosing any other ofthem, because of the "trivial" constraints mentioned earlier.
 * for example choosing any of $S_{A,!B,N2}$ ("*second hosue is green*") makes choosing any of $S_{A,!B,N3}$ through $S_{A,!B,N5}$ impossible, because no other hosue can be green anymore in this situation.
 * The representation is complete. The only way to cover all of the options (matrix columns representing atomic constraints) that constitute the puzzle text (puzzle constraint) we need to pick exactly one of the !A,B items and one of the A,!B items, so that their indexes are in the correct order (one is right of the other). 
-  
-
-**Comparison to natural language**
-
-Each of the "options" is hard to represent in natural language. Especially that only in ocncert do they express the more "natural" concept of "*`A` is left/right of *B*`". Nevertheless they could be translated into something like:
-* option 1 = "second house is green OR the ivory house is in not in position 1"
-* option 2 = "third house is green OR the ivory house is in not in position 2"
-* option 3 = "fourth house is OR the ivory house is in not in position 3"
-* option 4 = "fifth house is OR the ivory house is in not in position 4"
 
 **Selection of solution by de-selecting non-solutions**
 
