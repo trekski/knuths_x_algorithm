@@ -72,7 +72,7 @@ Sudoku can be modelled as an exact cover problem[^4] as follows:
     - "there is a `8` in the fourth 3x3 box"
     - "the grid position (4,5) has a number in it
     - etc.
-- each cosntraint must be fulfilled **exactly once** (if there is a `5` in row *x*, there is exactly **one** `5` in row *x*, etc.)
+- each constraint must be fulfilled **exactly once** (if there is a `5` in row *x*, there is exactly **one** `5` in row *x*, etc.)
   
 ### 1.3. Knuth's X Algorithm using a sparse matrix
 
@@ -82,7 +82,7 @@ To do it it works on a sparse matrix that is an incidence matrix of which soluti
 - columns represent the constraints / elements of the ***U*** universe
 - rows represent available options / elements of the ***S*** collection of subsets of ***U***
 - matrix is filled with `0`` by default except for...
-- if a given option/member of ***S*** (row) fulfills/contains a given cosntraint/element of ***U*** (column), a `1` is put instead
+- if a given option/member of ***S*** (row) fulfills/contains a given constraint/element of ***U*** (column), a `1` is put instead
 
 Applying Knuth's X algorithm to thesparse matrix solves the CSP it represtents. What we need though is to properly represent the solution elements and the constraints in the matrix.
 
@@ -261,7 +261,7 @@ we basically have four ways of satisfying the constraint. And the chosen element
 
 #### Solution : additional matrix columns
 
-Intuitively by playing around with the concept of key-lock image of the constraints, as well as noting that the complimentary nature of the selected items can be understood that selecting one element both implies selecting another **and** ***not*** selecting several others, I came to and abstract representation of the neighbor cosntraint that follows.
+Intuitively by playing around with the concept of key-lock image of the constraints, as well as noting that the complimentary nature of the selected items can be understood that selecting one element both implies selecting another **and** ***not*** selecting several others, I came to and abstract representation of the neighbor constraint that follows.
 
 For ease of notation let's use the following notation:
 1. if we denote an attribute (dimension and its value) as **A** then **$S_A$** denotes all elements from ***S*** that have that attribute. For example if **A** = "*drink is milk*" then **$S_A$** = set of all elements of ***S*** where `drink` = `coffee`, regardless of the values in other dimensions
@@ -277,7 +277,7 @@ Following our example
 
 > "*The green house is immediately to the right of the ivory house*" 
 
-we assign:
+we assign the attributes as:
 
 * A = "`house color` is `green`"
 * B = "`house color` is `ivory`"
@@ -294,14 +294,15 @@ Then the constraint be represented in the sparse matrix as a collection of atocm
 |$S_{A,!B,N3}$|◯|⬤|◯|◯|
 |$S_{A,!B,N4}$|◯|◯|⬤|◯|
 |$S_{A,!B,N5}$|◯|◯|◯|⬤|
+||||||
 |$S_{!A,B,N1}$|◯|⬤|⬤|⬤|
 |$S_{!A,B,N2}$|⬤|◯|⬤|⬤|
 |$S_{!A,B,N3}$|⬤|⬤|◯|⬤|
 |$S_{!A,B,N4}$|⬤|⬤|⬤|◯|
-|other[^*]|◯|◯|◯|◯|
+||||||
+|other<sup>*</sup>|◯|◯|◯|◯|
 
-[^*]: elements
-  not listed explicitly, i.e. $`S_{!A,!B}`$ and $`S_{A,B}`$ (if they exist) 
+<sup>*</sup>) *any elements not listed explicitly above, i.e. $`S_{!A,!B}`$ and $`S_{A,B}`$ (if they exist)*
 
 
 **Comparison to natural language**
@@ -315,7 +316,7 @@ Each of the "options" is hard to represent in natural language. Especially that 
 **Completeness**
 
 Note how:
-* We have sets of complimentary attributes (A,!B) and (!A,B) fullfill the new atomic constraints, but not (A,B) - this is because the two people are neighbors, not the same person, so one having one of the attributes exlcude that person from having the other attribute mentioned in the cosntraint.
+* We have sets of complimentary attributes (A,!B) and (!A,B) fullfill the new atomic constraints, but not (A,B) - this is because the two people are neighbors, not the same person, so one having one of the attributes exlcude that person from having the other attribute mentioned in the constraint.
 * House indexes for the complimentary attributes ("house color is green" written as $S_{A,!B,Ni}$ where i = 2...5) are shifted by one to the right compared to the indexes for the other attribute ("house color is ivory" written as $S_{!A,B,Ni}$ where i = 1...4) - thisis because the neighbors' relative positions are exactly defined.
 * It is impossible to complete all four options jsut by selecting one of eahc of the $S_{A,!B,Ni}$ elements, because choosing any one of them precludes choosing any other ofthem, because of the "trivial" constraints mentioned earlier.
 * for example choosing any of $S_{A,!B,N2}$ ("*second hosue is green*") makes choosing any of $S_{A,!B,N3}$ through $S_{A,!B,N5}$ impossible, because no other hosue can be green anymore in this situation.
@@ -341,7 +342,7 @@ Finally the non-directed neighbors constraints. Initially they look similar to t
 
 > "*The Norwegian lives next to the blue house*"
 
-we assign:
+we assign the attributes as:
 
 * A = "`nationality` is `Norwegian`"
 * B = "`house color` is `blue`"
@@ -384,36 +385,59 @@ To visualise the above in the sparse matrix:
 |neighbors are in $S_{N2}$ and $S_{N3}$|⬤|◯|◯|⬤|⬤|
 |neighbors are in $S_{N3}$ and $S_{N4}$|⬤|⬤|◯|◯|⬤|
 |neighbors are in $S_{N4}$ and $S_{N5}$|⬤|⬤|⬤|◯|◯|
+|||||||
 |$S_{A,!B,N1}$|⬤|◯|◯|◯|◯|
 |$S_{A,!B,N2}$|◯|⬤|◯|◯|◯|
 |$S_{A,!B,N3}$|◯|◯|⬤|◯|◯|
 |$S_{A,!B,N4}$|◯|◯|◯|⬤|◯|
 |$S_{A,!B,N5}$|◯|◯|◯|◯|⬤|
+|||||||
 |$S_{!A,B,N1}$|⬤|◯|◯|◯|◯|
 |$S_{!A,B,N2}$|◯|⬤|◯|◯|◯|
 |$S_{!A,B,N3}$|◯|◯|⬤|◯|◯|
 |$S_{!A,B,N4}$|◯|◯|◯|⬤|◯|
 |$S_{!A,B,N5}$|◯|◯|◯|◯|⬤|
+|||||||
+|other|◯|◯|◯|◯|◯|
 
 **Completeness**
 
 Similarily to above points about directed neighbors:
 * no two rows from the $S_{!A,B,Ni}$ group can be chosen due to "trivial" constraints
 * no two rows from the $S_{A,!B,Ni}$ group can be chosen due to "trivial" constraints
-* to covera all options (atomic constraints) we need to select exactly three rows:
-  1. one of the "neighbors are in $S_{Ni}$ and $S_{Nj}$ elements - the keying element
-  2. one of the itmes to be the first neighbor (in whichever of the two possible places)
-  3. another item to be the other neighbor occupying the remainig place.
+* to cover all options (atomic constraints) we need to select exactly three rows:
+  1. one of the "*neighbors are in $S_{Ni}$ and $S_{Nj}$*" elements - the keying element,
+  2. one of the items to be the first neighbor - in whichever of the two possible places,
+  3. another item to be the other neighbor - occupying the remainig place.
 
 **Other notes**
 
 As with the directed neighbors, so here we describe the solution to be selecteed by uisng complimentary key-lock entires in the matrix, and somehow de-selectign the elemnents undesired in the solution.
 
-This representation is even harder to translate back int onatural language, but by now hopefully you can see how the puzzle constraints expressed in natural language can be modelled by more elaborate combinatiosn of rows and columns in the sparse matrix all the while preserving the cosntraint's "logic".
+This representation is even harder to translate back int onatural language, but by now hopefully you can see how the puzzle constraints expressed in natural language can be modelled by more elaborate combinations of rows and columns in the sparse matrix, all the while preserving the constraint's "logic".
 
 As with the directed neighbors, care needs to be taken to omit invalid combinations of house indexes when cosntructing the synthetic rows and atomic constraint columns.
 
 ## 3. Implementation considerations
+
+||option 1|option 2|option 3|option 4|option 5|
+|-|-|-|-|-|-|
+|$S_{A,!B,N1}$|⬤|◯|◯|◯|◯|
+|$S_{A,!B,N2}$|⬤|⬤|◯|◯|◯|
+|$S_{A,!B,N3}$|⬤|⬤|⬤|◯|◯|
+|$S_{A,!B,N4}$|⬤|⬤|⬤|⬤|◯|
+|||||||
+|$S_{!A,B,N2}$|◯|⬤|⬤|⬤|⬤|
+|$S_{!A,B,N3}$|◯|◯|⬤|⬤|⬤|
+|$S_{!A,B,N4}$|◯|◯|◯|⬤|⬤|
+|$S_{!A,B,N5}$|◯|◯|◯|◯|⬤|
+|||||||
+|filler N2|◯|⬤|◯|◯|◯|
+|filler N3|◯|◯|⬤|◯|◯|
+|filler N4|◯|◯|◯|⬤|◯|
+|||||||
+|other|◯|◯|◯|◯|◯|
+
 
 ### 3.1. Number of combinations and "row culling"
 
