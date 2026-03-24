@@ -23,10 +23,8 @@ Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** sub
 
 In other words, given a set ***U*** (the universe) and a set ***S*** (the collection) such that:
 $$
-\begin{array}{l}
-S = \{x : x \in U \}&\\
+S = \{x : x \in U \}\\
 \bigcup S = U
-\end{array} 
 $$
 Find a sub-collection $S^*$ - the smallest subset of the collection, such that $\bigcup S^* = U$.
 
