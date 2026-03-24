@@ -24,11 +24,10 @@ Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** sub
 In other words, given a set ***U*** (the universe) and a set ***S*** (the collection) such that:
 
 $$
-\left\{ 
-\begin{align*}
-S = \\{x : x \in U \\}
-\\\\
-\bigcup S = U\end{align*}
+\left\\{ 
+\begin{array}{l}
+S = \\{x : x \in U \\}\\
+\bigcup S = U\end{array}
 \right.
 $$
 
