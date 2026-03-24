@@ -286,7 +286,11 @@ we assign the attributes as:
 
 Given our notation and assignments, for example $S_{A,!B,N4}$ menas "*all elements of **S** where `house color` is `green` and `house` color is not `ivory` and house number is `4`*" (all the while pet, cigarette, nationality and drink are of anny avaiallbe value).
 
-Then the constraint be represented in the sparse matrix as a collection of atocmic constraint columns implementign the key-lock approach as follows:
+Then the constraint can be represented in the sparse matrix as a collection of atomic constraint columns implementing the key-lock approach as follows:
+* we have an additional atomic constraint column representing each of the options of placing the first neighbor.
+* elements of $S_{A,!B,Ni}$ have cells filled in constraint columns for option *i* (the key)
+* elements of $S_{!A,B,Ni}$ have cells filled in constraint columns for all options but *i* (the complementary lock)
+* any remaining other elements are not matched
 
 ||option 1|option 2|option 3|option 4|
 |-|:-:|:-:|:-:|:-:|
@@ -375,7 +379,13 @@ Note: all sub-options can be grouped pairwise and rearranged on the above list. 
 
 **Proposal**
 
-Building on the previously proposed key-lock arrangement of the sparse matrix I propose a solution in which we are able to select one of the new super-oprions by adding new synthetic rows to the matrix. Each of those rows would represent placing the neightbors in a given place overal. Or rather: key in our possible selection of exact neighbors. then selection ofthe actual attribute placement would follow by complimenting that pre-selection.
+Building on the previously proposed key-lock arrangement of the sparse matrix I propose a solution in which we are able to select one of the new super-options by adding new synthetic rows to the matrix. Each of those rows would represent placing the two neightbors in a given place overall. Or rather: key in our possible selection of exact neighbors. Then selection of the actual attribute placement would follow by complimenting that pre-selection.
+
+* we have an additional atomic constraint column representing each of the options of placing any of the two neighbors.
+* we have additional elements in ***S*** representing the possible arrangements of the pair of neighbors in adjacent positiosn *i* and *i+1*. Each such element has them atrix filled in for columns representing options i* and *i+1* (the lock)
+* elements of $S_{A,!B,Ni}$ have cells filled in constraint columns for option *i* (first part of the key)
+* elements of $S_{!A,B,Ni}$ have cells filled in constraint columns for option *i* (second part of the key)
+* any remaining other elements are not matched
 
 To visualise the above in the sparse matrix:
 
