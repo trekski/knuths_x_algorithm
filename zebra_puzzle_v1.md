@@ -555,15 +555,25 @@ Given that each "trivial" element of ***S*** hast 5 attributes, we would have to
 ## 4. Observations
 
 I have ran the final script against a few different puzzle formualtions:
-* [input_1_einstein.yml](input_1_einstein.yml) - found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
-* [input_2_einstein.yml](input_2_einstein.yml) - found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
-* [input_3_einstein.yml](input_3_einstein.yml) - "SHIPS" riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
+* [input_1_einstein.yml](input_1_einstein.yml) ("Who's got a Fish?") found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
+* [input_2_einstein.yml](input_2_einstein.yml) ("Who's got a Zebra?") found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
+* [input_3_einstein.yml](input_3_einstein.yml) - ("Ships") riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
 
 For each of them eventally (with trivial row culling) the program was able to find the correct solution.
 
 ### 4.1. Solution times
 
 Infortunately, because of how YML is read, the dimensions, attributes and contraitns are added to the puzzle definition in different order each time the puzzle is ran. So the times presented here are averages of 10 runs for runs wiht trivial row culling, and single runs for runs without row culling. The overall time is so much longer without culling that it was not worth the wait to get precise numbers.
+
+|riddle|avg. backtracks|avg. setup<sup>1</sup> time|avg. search<sup>2</sup> time|avg. total<sup>3</sup> time|
+|-|-|-|-|-|
+|"fish"|2.10 ± 0.99|111 ± 24|8.2 ± 1.7|154 ± 31|
+|"zebra"|2.8 ± 2.0|102 ± 17|8.7 ± 2.2|142 ± 24|
+|"ships"|3.70 ± 0.95|102.7 ± 5.2|12.1 ± 2.0|147.0 ± 7.6|
+
+<sup>1</sup>) time to generate the matrix columns and rows (with culling) and match them \
+<sup>2</sup>) time to find the solution once the matrix is ready \
+<sup>3</sup>) total time from start of program to output of the solution
 
 ### 4.2. More advanced puzzles
 
