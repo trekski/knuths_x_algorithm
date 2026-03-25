@@ -503,8 +503,8 @@ flowchart LR
     A --> B1_loop --> B1[[loop through drinks]]
     A --> B2_loop --> B2[[loop through drinks]]
     A --> B3_loop --> B3[[loop through drinks]]
-    A ---> B4_loop --> B4[[loop through drinks]]
-    A ---> B5_loop --> B5[[loop through drinks]]
+    A --> B4_loop --> B4[[loop through drinks...]] ~~~ C3_5
+    A --> B5_loop --> B5[[loop through drinks...]] ~~~ C3_5
     B1 --> C1_1 --> D1_1[[loop through dim 3...]]
     B1 --> C1_2 --> D1_2(((STOP))):::stop
     B1 --> C1_3 --> D1_3[[loop through dim 3...]]
@@ -525,9 +525,45 @@ In the tested example such an approach of "culling" invalid elementary elements 
 
 ### 3.2. Lookup and filling in the sparse matrix
 
+As mentioned in 2.2 and 2.3 to properly represent the two different types of neighbor constraints, we alo need to cosntruct several addtional constraint columns. For a puzzle with *n* houses weneed *n-1* additional columns for each directed neighbor constraint and *n* for each undirected neighbor constraint. We also need *n* additional "keying" rows for each undirected neighbor constraint.
+
+Having created all the rows and all the columns we ned to fill in the matrix. To facilitate the process we want to avoid a situation in which each of the created rows is compared agains each of the created columsn and see if they should be connected. So, for easier lookup of which rows should be connected to which columns, I constructed a lookup mechanism:
+- on one hand all rows have their defining attributes assigned to them
+  - for "trivial" rows it simply all five attributes of each row
+  - for all extra rows for undirected neighbors it's the two attributes (one for each neigbor) and the position in which the pair could be placed
+- on the opther hand, when creating columns, they are indexed in dictionaries matching their characteristic
+  - for each "trivial" column it's the column's respective attribute and house position
+  - for the addtional neighbor columsn it's the attributes of each neighbor pairing and the position they relate to
+
+Because of how the matrix is filled in, even with these lookup dictionaries for columns it still resutls in quite many loops. Consider an example of assigning the "triviasl" elemetns of ***S*** to the directed neighbor columns:
+
+1. We have a classical 5x5x5 puzzle
+2. We have a neighbor cosntraint in the form "*Person with attribute `A` lives left of the person with attribute `B`*"
+2. we need extra 4 columns for the key-lock representation, as discussed in 2.2
+   - these colums can be punt in a dictionary addressed by the two neiughbor attributes and the house number so somewhere in *d[A][B][i]* for *i = 1 .. 4*
+3. All rows belonging to %S_{A,!B, Ni} need to be matched to a column with the same i:
+   - we look up A in *d*
+    - we ***loop*** through all entires *x* in *d[A]* (ineffective loop) and discard ones where *x == B*
+       - for each entry *x* we take d[A][x][i]
+4. All rows belonging to %S_{!A,B, Ni} need to be matched to a column with the same i:
+   - we look up B in *d*
+    - we ***loop*** through all entires *x* in *d[B]* (ineffective loop) and discard ones where *x == A*
+      - we ***loop*** through all entires *j* in *d[B][x]* (ineffective loop) and discard ones where *j == i*
+
+Given that each "trivial" element of ***S*** hast 5 attributes, we would have to repeat that process $\binom{5}{2} = 10$ times for each element.
+
 ## 4. Observations
 
+I have ran the final script against a few different puzzle formualtions:
+* [input_1_einstein.yml](input_1_einstein.yml) - found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
+* [input_2_einstein.yml](input_2_einstein.yml) - found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
+* [input_3_einstein.yml](input_3_einstein.yml) - "SHIPS" riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
+
+For each of them eventally (with trivial row culling) the program was able to find the correct solution.
+
 ### 4.1. Solution times
+
+Infortunately, because of how YML is read, the dimensions, attributes and contraitns are added to the puzzle definition in different order each time the puzzle is ran. So the times presented here are averages of 10 runs for runs wiht trivial row culling, and single runs for runs without row culling. The overall time is so much longer without culling that it was not worth the wait to get precise numbers.
 
 ### 4.2. More advanced puzzles
 
