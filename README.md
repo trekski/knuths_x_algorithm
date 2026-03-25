@@ -6,8 +6,8 @@ In this repositry I keep progrmas that I wrote to implement Knuth's X algorithm 
 
 Here's a quick rundown of the contents of the repository, in suggested order of reading:
 
-* `README.md` - this file, explaining how to navigate the repo.
-* `zebra_puzzle_v1.md` - a detailed explanaiton of how I went about implementing a solution for the Zebra Puzzle using Knuth's X algorithm.
+* <README.md> - this file, explaining how to navigate the repo.
+* <zebra_puzzle_v1.md> - a detailed explanaiton of how I went about implementing a solution for the Zebra Puzzle using Knuth's X algorithm.
 * `knuth_algo_x_sudoku.ipynb` - a warm-up exercise - implementing Knuth's algorithm X to solve a sudoku
   * `input_n.sudoku` - several examples of sudoku that can be solved by the above program. Coding of a sudoku in this file should be rather self-explanatory
 * `knuth_algo_x_einstein.ipynb` - my first attempt to implement a solver for Einstein Puzzles using Knuth's X algorithm
