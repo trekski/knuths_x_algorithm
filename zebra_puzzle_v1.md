@@ -159,25 +159,38 @@ Apart from the "trivial" constraints of the "one and only one" type, we can iden
 
 ### 2.1. Obvious naive representation
 
-Such a visualisation of the problem suggests that:
-- Elements of *U* could be all possible "one and only one" constraints:
-  - each attribute is used only once:
-    - a person with `nationality` = `Norwegian` lives somewhere
-    - a person with `nationality` = `English` lives somewhere
-    - a person with `nationality` = `Norwegian` lives somewhere
-    - ...
-    - a person with `pet` = `cat` lives somewhere
-    - ...
-  - each house has a person with exactly one of each attributes:
-    - the person living in house `1` has exactly one `nationality` value
-    - the person living in house `1` has exactly one `drink` value
-    - the person living in house `1` has exactly one `cigarette` value
-    - the person living in house `1` has exactly one `pet` value
-    - the person living in house `1` has exactly one `house color` value
-    - the person living in house `2` has exactly one `nationality` value
-    - ...
+#### Constraints
 
-elements of ***S*** could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
+Such a visualisation of the problem suggests that:
+
+Elements of *U* could be all possible "one and only one" constraints:
+  - attribute uniqueness - each attribute is used only once:
+    - there is exactly one person with `nationality` = `Norwegian`
+    - there is exactly one person with  `nationality` = `English`
+    - there is exactly one person with  `nationality` = `Norwegian`
+    - ...
+    - there is exactly one person with  `pet` = `cat`
+    - ...
+  - house completeness and unambiguity - each house has a person with exactly one attribute of each of the avaialble dimensions:
+    - the person living in house `1`
+      - has exactly one `nationality` value assigned
+      - has exactly one `drink` value assigned
+      - has exactly one `cigarette` value assigned
+      - has exactly one `pet` value assigned
+      - has exactly one `house color` value assigned
+    - the person living in house `2` 
+      - has exactly one `nationality` value
+      - ...
+
+Let's call these types of cosntraitns "trivial" - any ZebraPuzzle has to start wit hat least these constraints
+
+For a classical 5x5x5 Zebra puzzle (5 houses, 5 dimensions determine 5 values in each dimension) this gives us $ 5 \cdot 5 + 5 \cdot 5 = 50$ columns fot the "trivial" cosntrints
+
+However, the puzzle has other constrints too, which are not yet represented in the above example.
+
+#### Elements
+
+Elements of ***S*** could simply be paris of attribute and house number. In other a single element would describe a statement like "*The person who's `dimension` has `value` lives in house number `#`*".
 
 * "person with `nationality` = `Norwegian` lives in house `1`"
 * "person with `nationality` = `Norwegian` lives in house `2`"
@@ -187,7 +200,7 @@ elements of ***S*** could simply be paris of attribute and house number. In othe
 * "person with `nationality` = `British` lives in house `1`"
 * ...
 
-However, the puzzle has other constrints too, which are not yet represented in the above example (yet)
+For a classical 5x5 Zebra puzzle we have $5 \cdot 5 \cdot 5 = 125$ elements/rows to choose from.
 
 ### 2.2 First challenge : "identity" constraints
 
@@ -237,9 +250,11 @@ Element of ***S*** is filling in an entire column of the grid. For example:
 
 Upside of this approach is that all "identity" constraints are represented by simply selecting one of the allowed combinations. This generally is feasible using the X algorithm.
 
-The downside is that we have now many more elements of ***S***. In the niave approach we needed only as many elements in ***S*** as there were possible attribute values. In the classic puzzle with 5 dimensions (nationality, drink, cigarette, pet, house color), 5 possible values for each dimension and five houses to populate, gave us $|S| = 5 \cdot 5 \cdot 5 = 25$. With the "columnar" approach we have as many elements as there are *combinations* of attributes, and each combination can be assigned to any of the houses, which gives us $|S| = 5 ^5 \cdot 5 = 15 625$
+The downside is that we have now many more elements of ***S***. In the niave approach we needed only as many elements in ***S*** as there were possible attribute values. In the classic puzzle with 5 dimensions (nationality, drink, cigarette, pet, house color), 5 possible values for each dimension and five houses to populate, gave us $|S| = 5 \cdot 5 \cdot 5 = 125$. With the "columnar" approach we have as many elements as there are *combinations* of attributes, and each combination can be assigned to any of the houses, which gives us $|S| = 5 ^5 \cdot 5 = 15 625$
 
 I will discuss later on how we can reduce that number when generating the sparse matrix. Also, during the work on implementing this approach I relised that the "naive" approach can be adapted wo work, giving us the benefit of a small ***S*** while still modelling all cosntraitns properly. That notion will be expanded upon in a separate project. However, for now, unless otherwise noted, all further work on my solution to the puzzle will be based on using the "columnar" approach.
+
+At the same time, since we cosntructed the elements of ***S*** in this "columnar" approach such that one column already has exactly one attributefro meach of the avaialble dimensions, the "trivial" constraints can ignore the """house completness and unambiguity" cosntraints, leaving us with only **25** "trivial" columns
 
 ### 2.3 Second challenge : directed neighbor constraints
 
@@ -430,28 +445,85 @@ As with the directed neighbors, care needs to be taken to omit invalid combinati
 
 ## 3. Implementation considerations
 
-||option 1|option 2|option 3|option 4|option 5|
-|-|-|-|-|-|-|
-|$S_{A,!B,N1}$|⬤|◯|◯|◯|◯|
-|$S_{A,!B,N2}$|⬤|⬤|◯|◯|◯|
-|$S_{A,!B,N3}$|⬤|⬤|⬤|◯|◯|
-|$S_{A,!B,N4}$|⬤|⬤|⬤|⬤|◯|
-|||||||
-|$S_{!A,B,N2}$|◯|⬤|⬤|⬤|⬤|
-|$S_{!A,B,N3}$|◯|◯|⬤|⬤|⬤|
-|$S_{!A,B,N4}$|◯|◯|◯|⬤|⬤|
-|$S_{!A,B,N5}$|◯|◯|◯|◯|⬤|
-|||||||
-|filler N2|◯|⬤|◯|◯|◯|
-|filler N3|◯|◯|⬤|◯|◯|
-|filler N4|◯|◯|◯|⬤|◯|
-|||||||
-|other|◯|◯|◯|◯|◯|
-
+After defining the problem and how to model as an Exact Cover problem and how it can be represented in the X algorithm's sparse matrix, we need to consider a few practical details of how to actually implement it in code. First and foremost:
+- how to effectively create the rows representing elements of ***S***
+- how to effectively creeate the columsn representingthe constraints
+- how to match the rows agains the appropriate columns (or vice versa)
 
 ### 3.1. Number of combinations and "row culling"
 
-### 3.2. Iterative filling in the sparse matrix
+As mentioned in 2.2, if we switch from a "naive" representation (***S*** elements are tiles on the solution "grid") to a "columnar" representation (***S*** elements are full columns of the solution grid) we increase the collection cardinality dramatically. For the classic 5x5x5 puzzle it goes from 125 to ~15k. This is because we have to generate all possible combinations of all the dimension values.
+
+However, we can dramatically reduce that number already when generatign the ***S*** rows. Consider this:
+- to generate all combinations of all possible values in each dimension we could simply execute a nested loop through each dimension in sequence:
+  1. looop through all values of dimension 1. While doing that, in each itermation...
+  2. looop through all values of dimension 2. While doing that, in each itermation...
+  3. looop through all values of dimension 3. While doing that, in each itermation...
+  4. ...
+- a column is build by combining, on the lowest level of the loop, all valeus for meach of the dimension
+
+BUT
+
+While looping, we can check whether or not any of the partial attribute sets are invalid and skip step(s) in the loop if needed.  Let's consider those nested loops as a depth-first search of a tree of all possible combinations of dimension values. For the sake of an example let's assume:
+- we are at the beginning of the nesting
+- first dimension is `nationality`
+- second dimension is `drink`
+And let's consider how the constraint "*The Ukrainian drinks tea*" would affect loop execution.
+
+Given that constraint we know that: 
+- any element where `nationality` = `Ukranian` cannot have a `drink` other than `tea`
+- and conversly any element where `drink` =`tea` cannot have `nationality` be `Ukranian`
+
+Thislet's us skip loop steps whenever we detect any invalid comnbination:
+
+```mermaid
+flowchart LR
+    classDef stop stroke:#f00;
+    start@{ shape: circle, label: "Start" }
+    B1_loop([nationality : English])
+    B2_loop([nationality : Spanish])
+    B3_loop([nationality : Ukrainian])
+    B4_loop([nationality : Norwegian])
+    B5_loop([nationality : Japanese])
+    C1_1([drink : milk])
+    C1_2([drink : tea])
+    C1_3([drink : coffee])
+    C1_4([drink : juice])
+    C1_5([drink : water])
+    C2_1([drink : milk])
+    C2_2([drink : tea])
+    C2_3([drink : coffee])
+    C2_4([remaining drinks...])
+    C3_1([drink : milk])
+    C3_2([drink : tea])
+    C3_3([drink : coffee])
+    C3_4([drink : juice])
+    C3_5([drink : water])
+    start --> A[[loop through nationalities]]
+    A --> B1_loop --> B1[[loop through drinks]]
+    A --> B2_loop --> B2[[loop through drinks]]
+    A --> B3_loop --> B3[[loop through drinks]]
+    A ---> B4_loop --> B4[[loop through drinks]]
+    A ---> B5_loop --> B5[[loop through drinks]]
+    B1 --> C1_1 --> D1_1[[loop through dim 3...]]
+    B1 --> C1_2 --> D1_2(((STOP))):::stop
+    B1 --> C1_3 --> D1_3[[loop through dim 3...]]
+    B1 --> C1_4 --> D1_4[[loop through dim 3...]]
+    B1 --> C1_5 --> D1_5[[loop through dim 3...]]
+    B2 --> C2_1 --> D2_1[[loop through dim 3...]]
+    B2 --> C2_2 --> D2_2(((STOP))):::stop
+    B2 --> C2_3 --> D2_3[[loop through dim 3...]]
+    B2 --> C2_4
+    B3 --> C3_1 --> D3_1(((STOP))):::stop
+    B3 --> C3_2 --> D3_2[[loop through dim 3...]]
+    B3 --> C3_3 --> D3_3(((STOP))):::stop
+    B3 --> C3_4 --> D3_4(((STOP))):::stop
+    B3 --> C3_5 --> D3_5(((STOP))):::stop
+```
+
+In the tested example such an approach of "culling" invalid elementary elements resutled in reducing the size od ***S*** by two orders of magnitude to around 300 entries. 
+
+### 3.2. Lookup and filling in the sparse matrix
 
 ## 4. Observations
 
