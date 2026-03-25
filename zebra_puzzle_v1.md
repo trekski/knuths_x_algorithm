@@ -391,10 +391,10 @@ To visualise the above in the sparse matrix:
 
 ||option 1|option 2|option 3|option 4|option 5|
 |-|:-:|:-:|:-:|:-:|:-:|
-|neighbors are in $S_{N1}$ and $S_{N2}$|◯|◯|⬤|⬤|⬤|
-|neighbors are in $S_{N2}$ and $S_{N3}$|⬤|◯|◯|⬤|⬤|
-|neighbors are in $S_{N3}$ and $S_{N4}$|⬤|⬤|◯|◯|⬤|
-|neighbors are in $S_{N4}$ and $S_{N5}$|⬤|⬤|⬤|◯|◯|
+|one neighbor is from $S_{N1}$ <br /> and the other from $S_{N2}$|◯|◯|⬤|⬤|⬤|
+|$S_{N2}$ and $S_{N3}$|⬤|◯|◯|⬤|⬤|
+|$S_{N3}$ and $S_{N4}$|⬤|⬤|◯|◯|⬤|
+|$S_{N4}$ and $S_{N5}$|⬤|⬤|⬤|◯|◯|
 |||||||
 |$S_{A,!B,N1}$|⬤|◯|◯|◯|◯|
 |$S_{A,!B,N2}$|◯|⬤|◯|◯|◯|
