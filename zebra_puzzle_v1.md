@@ -593,14 +593,17 @@ idenfitied types of cosntraints.
   contains the following cosntraint:
   > "*The influencer who has been to Thailand is **somewhere to the right** of the woman wearing a Pink shirt.*"
   None of the methids to encode "neighbor" relationships prposed above can handle such a loose case at this moment.
-* Puzzles where the is no order imposed on the entities, like the "Meeting" puzzle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) mentioned before.
-  None of the clues mention any kind of order or placement of the entities in space. Both the "naive"
-  and "columnar" representations proposed above implicitly assumed there to be a dedicated spatial dimension - order ofthe entities.
-  In this case the puzzle simply cannot be represented in any meaningful way, other than allowing any of the entities to be in any of the 
-  positions (assumed to exist). This would dramatically expand the number of possible combinations and the size of the search tree.
+* Puzzles where the is no order imposed on the entities. For example the "Meeting" puzzle found on
+  [brainden.com](http://brainden.com/einsteins-riddles.htm). In this puzzle none of the clues mention
+  any kind of order or placement of the entities in space. Both the "naive" and "columnar" representations
+  proposed above implicitly assumed there to be a dedicated spatial dimension - order of the entities. In
+  this case the puzzle simply cannot be represented in any meaningful way. If we still require there to be
+  ordered places for thee entities, the entities would have to be allowed to be in any of the positions 
+  without any constraints. This would dramatically expand the number of possible combinations and the size
+  of the search tree.
 
-Effectively whese new cosntraint types are not covered by the model porposed so far. This means that
-new approaches need to be found to solve these puzzles.
+The new cosntraint types introduced by those puzzles are not covered by the model porposed so far.
+This means that new approaches need to be found to solve these puzzles.
 
 ## 5. Conclusion and next steps
 
