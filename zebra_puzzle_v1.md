@@ -555,12 +555,12 @@ Given that each "trivial" element of ***S*** hast 5 attributes, we would have to
 ## 4. Observations
 
 I have ran the final script against a few different puzzle formulations:
-* [input_1_einstein.yml](input_1_einstein.yml) ("Who's got a Fish?") found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
-* [input_2_einstein.yml](input_2_einstein.yml) ("Who's got a Zebra?") found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
-* [input_3_einstein.yml](input_3_einstein.yml) - ("Ships") riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
+* [input_1_einstein.yml](input_1_einstein.yml) - "Who's got a Fish?" riddle found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
+* [input_2_einstein.yml](input_2_einstein.yml) - "Who's got a Zebra?" riddle found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
+* [input_3_einstein.yml](input_3_einstein.yml) - "Ships" riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
 
-I ran the program on 6 core AMD Ryzen 5 7640U with 32GM memory. For each of them eventally
-(with culling of trivial rows) the program was able to find the correct solution well within <1s.
+I ran the program on 6 core AMD Ryzen 5 7640U with 32GM memory. For each of the riddles the program
+(with culling of trivial rows) was able to find the correct solution well within <1s.
 When run without row culling the "fish" riddle did not finish within 90 minutes, after which
 I aborted further experiments.
 
@@ -583,6 +583,25 @@ longer without culling that it was not worth the wait to get precise numbers.
 
 ### 4.2. More advanced puzzles
 
+When looking for more examples of the Zebra puzzle, I found several puzzles
+which extended the basic idea in new ways. Ways which included modifications on the alredy
+idenfitied types of cosntraints.
+
+* Puzzles where except for immediate neighbors (directed or non-directed) the neighbors can be also
+  separated by an arbitrary number of other entities. For example this
+  [hard Daily Zebra puzzle #841](https://www.zebrapuzzles.com/p/2XJRpQtw/#hard)(accessed: 2026-03-25)
+  contains the following cosntraint:
+  > "*The influencer who has been to Thailand is **somewhere to the right** of the woman wearing a Pink shirt.*"
+  None of the methids to encode "neighbor" relationships prposed above can handle such a loose case at this moment.
+* Puzzles where the is no order imposed on the entities, like the "Meeting" puzzle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) mentioned before.
+  None of the clues mention any kind of order or placement of the entities in space. Both the "naive"
+  and "columnar" representations proposed above implicitly assumed there to be a dedicated spatial dimension - order ofthe entities.
+  In this case the puzzle simply cannot be represented in any meaningful way, other than allowing any of the entities to be in any of the 
+  positions (assumed to exist). This would dramatically expand the number of possible combinations and the size of the search tree.
+
+Effectively whese new cosntraint types are not covered by the model porposed so far. This means that
+new approaches need to be found to solve these puzzles.
+
 ## 5. Conclusion and next steps
 
 #### Going back to the "naive" approach
@@ -591,7 +610,7 @@ longer without culling that it was not worth the wait to get precise numbers.
 [^1]: https://en.wikipedia.org/wiki/Constraint_satisfaction_problem
 [^2]: https://en.wikipedia.org/wiki/Set_cover_problem#Related_problems
 [^3]: https://en.wikipedia.org/wiki/Exact_cover
-[^4]:  https://en.wikipedia.org/wiki/Sudoku_solving_algorithms#Constraint_programming
+[^4]: https://en.wikipedia.org/wiki/Sudoku_solving_algorithms#Constraint_programming
 [^5]: https://en.wikipedia.org/wiki/Knuth%27s_Algorithm_X
 [^6]: https://en.wikipedia.org/wiki/Zebra_Puzzle
 [^7]: https://www.wikihow.com/Einstein%27s-Riddle
