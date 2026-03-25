@@ -554,16 +554,22 @@ Given that each "trivial" element of ***S*** hast 5 attributes, we would have to
 
 ## 4. Observations
 
-I have ran the final script against a few different puzzle formualtions:
+I have ran the final script against a few different puzzle formulations:
 * [input_1_einstein.yml](input_1_einstein.yml) ("Who's got a Fish?") found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
 * [input_2_einstein.yml](input_2_einstein.yml) ("Who's got a Zebra?") found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
 * [input_3_einstein.yml](input_3_einstein.yml) - ("Ships") riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
 
-For each of them eventally (with trivial row culling) the program was able to find the correct solution.
+I ran the program on 6 core AMD Ryzen 5 7640U with 32GM memory. For each of them eventally
+(with culling of trivial rows) the program was able to find the correct solution well within <1s.
+When run without row culling the "fish" riddle did not finish within 90 minutes, after which
+I aborted further experiments.
 
 ### 4.1. Solution times
 
-Infortunately, because of how YML is read, the dimensions, attributes and contraitns are added to the puzzle definition in different order each time the puzzle is ran. So the times presented here are averages of 10 runs for runs wiht trivial row culling, and single runs for runs without row culling. The overall time is so much longer without culling that it was not worth the wait to get precise numbers.
+Because of how YML is read, the dimensions, attributes and contraitns are added to the puzzle definition
+in different order each time the puzzle is ran. So the times presented here are averages of 10 runs for
+runs wiht trivial row culling, and single runs for runs without row culling. The overall time is so much
+longer without culling that it was not worth the wait to get precise numbers.
 
 |riddle|avg. backtracks|avg. setup<sup>1</sup> time|avg. search<sup>2</sup> time|avg. total<sup>3</sup> time|
 |-|-|-|-|-|
