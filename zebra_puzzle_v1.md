@@ -1,25 +1,47 @@
 # Applying Knuth's X Algorithm to solving Zebra Puzzles (a.k.a. Einstein's Puzzle)
 
-This document explains my approach and work on the latter problem - the Zebra Puzzles.
-
-
 ## Abstract
 
-...
+This document explains my approach and work on the latter problem - the Zebra Puzzles.
 
+## 1. Motivation
 
-## 1. Prerequisites
+### 1.1. History so far
 
-A prerequsite to follow my explanation of how I used the X algorithm to solve Zebra Puzzles, is to understand the concepts refered to in this section. This section serves only as a reminder, not a full course or explanation of each of the concepts.
+The motivation behind this project was simply my personal interest in logical puzzles and the wikipedia-rabbit hole I fell into when reading up about the maths of sudoku. I solved many a sudoku in my time and at one point I asked myself the seemingly obvious question: Sudokus *can* be solved programmaticaly, right? After all, if not,m thne how would they be produced in such numbers in different magazines. If so, then *what is the method* to solve a sudoku programatically?
 
-### 1.1. Constrain satisfaction and set coverage problems
+As I was researching that question I happened upon Constraint Satisfaction Problems, Set Cover problems and finally II found out about Knuuth's X algorithm. Then, just to get a better understanding of what I jsut read, I coded a simple sudoku solver following Knuth's paper.
+
+### 1.2. Inspiration
+
+Several months have passed, but the topic must have been somewhere in the back of my head. It only needed a trigger. Then, one day, I happened upon (again) the Einstein puzzle, a.k.a. Zebra Puzzle. I knew there were many variations on it. And then it clicked, I asked myself the question that lead to this pet project: **Can I solve the Zebra Puzzle (or in fact any puzzle of that type) using Knuth's algorightm?**
+
+This is the result of trying to answer that question.
+
+### 1.3. initial research
+
+More than the answer itslef (bu best uninformed bet back then would be: yes, someone must've done it alraedy) I was interesting in understanding how to figure it out on my own. Finding a method to zolve Zebra Puzzle(s) became a puzzle in its own right. With that in mind I spend as little time as possible actually searching for an answer online. And what I found didn't really ring like the thing I was looking for.
+1. there is of course the "brute force" approach[^11]
+2. there are mentions[^10][^12] on wikipedia of "algorithms evaluationg the rules" without actually citing any specific source or implementations
+3. I've found a "model" written for Alloy[^13]
+4. I also found a program written in Ada[^14]
+
+I don't really know Alloy or Ada, but from what I can glean from the shared code, it's more or less like hard-coding the rules set out by the puzzle. Especially for the Ada progam it seems like to solve a different formualtion of the puzzle, I'd have to re-write half of the program from scratch.
+
+I might be wrong of course - I don't really know those languages and might be missing something here. But also, as stated before, it was more about the fun of discovering, than the success of having discovered. It was about the journey!
+
+## 2. Prerequisites
+
+A prerequsite to follow my explanation of how I used the X algorithm to solve Zebra Puzzles, is to understand the concepts refered to in this section. This section serves only as a reminder, not a full course or in-depth explanation of each of the concepts.
+
+### 2.1. Constrain satisfaction and set coverage problems
 
 A [Constraint Satisfaction Problem](https://en.wikipedia.org/wiki/Constraint_satisfaction_problem)(CSP) is a "mathematical question defined as a set of objects whose state must satisfy a number of constraints or limitations."[^1]
 
 Many logical puzzles can be modeled as a CSP[^1], including but not limited to Sudoku and Einstein's Riddle.
 
 A [Set Cover problem](https://en.wikipedia.org/wiki/Set_cover_problem) can be worded as :
-Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** subsets of ***U*** whose union equals the universe, the set cover problem is to identify a smallest sub-collection of ***S*** whose union equals the universe.
+Given a set *U*  (the universe), and a collection ***S*** of a given ***m*** subsets of ***U*** whose union equals the universe, identify a smallest sub-collection of ***S*** whose union equals the universe.
 
 In other words, given a set ***U*** (the universe) and a set ***S*** (the collection) such that:
 
@@ -37,7 +59,7 @@ A more sctrict formulation is the [Exact Cover](https://en.wikipedia.org/wiki/Ex
 
 One of the ways to represent some of the CSPs is encoding them as a n Exact Cover problem[^2][^3]. There are known methods to solve set cover problems, for example Knuth's X algorithm. Therefore if we are able to map a puzzle or a riddle to n exact cover problem, we can solve such a puzzle.
 
-### 1.2. Sudoku as an example of a set coverage problem
+### 2.2. Sudoku as an example of a set coverage problem
 
 Sudoku can be modelled as an exact cover problem[^4] as follows:
 - **elements** the Universe $U$ are representing specific **constraints** of the sudoku puzzle, such as:
@@ -74,7 +96,7 @@ Sudoku can be modelled as an exact cover problem[^4] as follows:
     - etc.
 - each constraint must be fulfilled **exactly once** (if there is a `5` in row *x*, there is exactly **one** `5` in row *x*, etc.)
   
-### 1.3. Knuth's X Algorithm using a sparse matrix
+### 2.3. Knuth's X Algorithm using a sparse matrix
 
 "Algorithm X is an algorithm for solving the exact cover problem. It is a straightforward recursive, nondeterministic, depth-first, backtracking algorithm used by Donald Knuth to demonstrate an efficient implementation called DLX, which uses the dancing links technique."[^5]
 
@@ -86,7 +108,7 @@ To do it it works on a sparse matrix that is an incidence matrix of which soluti
 
 Applying Knuth's X algorithm to thesparse matrix solves the CSP it represtents. What we need though is to properly represent the solution elements and the constraints in the matrix.
 
-### 1.4 What is a "Zebra Puzzle"?
+### 2.4 What is a "Zebra Puzzle"?
 
 The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known in many vartations, most notably in the following (attributed to Einstein, hence the alternative name)[^6]
 
@@ -109,7 +131,7 @@ The "Zebra Puzzle", alo known as "the Einstein Riddle" is a logic puzzle known i
 > Now, who drinks water? Who owns the zebra? 
 > In the interest of clarity, it must be added that each of the five houses is painted a different color, and their inhabitants are of different national extractions, own different pets, drink different beverages and smoke different brands of American cigarets. One other thing: in statement 6, right means your right. 
 
-## 2. How to model the Zebra Puzzle as a Set Coverage Problem
+## 3. How to model the Zebra Puzzle as a Set Coverage Problem
 
 In parallel to Sudoku, to model the Zebra Puzzle as a sparse matrix for an Exact Cover problem, we need to decide:
 - what are the elements of our Universe ***U***
@@ -139,6 +161,7 @@ Commonly[^7][^8][^9] this is then visualised as a grid (*not* yet the Knuth's sp
 |Color|?|?|?|?|?|
 
 Apart from the "trivial" constraints of the "one and only one" type, we can identify further constraint types in the riddle, as follows:
+
 * **"identity" constraints** - any statement that forces a person living in a house to have two attributes coinciding, not necessarily naming the exact hosue number. These are statements in the form "*The person whose `dimension_a` has value `value_a` also has `value_b` in `dimension_b`*", For example:
   > "*The Spaniard owns the dog*"
 
@@ -157,7 +180,7 @@ Apart from the "trivial" constraints of the "one and only one" type, we can iden
 * **"non-directional neighbor constraints"** - similar to directed neighbor constraints, with the difference that instead of a specific direction ("left" or "right") the constraint is thatthe two people simply live "next to" each other". For example:
   > "*The Norwegian lives next to the blue house.*"
 
-### 2.1. Obvious naive representation
+### 3.1. Obvious naive representation
 
 #### Constraints
 
@@ -182,11 +205,7 @@ Elements of *U* could be all possible "one and only one" constraints:
       - has exactly one `nationality` value
       - ...
 
-Let's call these types of cosntraitns "trivial" - any ZebraPuzzle has to start wit hat least these constraints
-
-For a classical 5x5x5 Zebra puzzle (5 houses, 5 dimensions determine 5 values in each dimension) this gives us $ 5 \cdot 5 + 5 \cdot 5 = 50$ columns fot the "trivial" cosntrints
-
-However, the puzzle has other constrints too, which are not yet represented in the above example.
+Let's call these types of cosntraitns "trivial" - any ZebraPuzzle has to start with at least these constraints. For a classical 5x5x5 Zebra puzzle (5 houses, 5 dimensions determine 5 values in each dimension) this gives us $ 5 \cdot 5 + 5 \cdot 5 = 50$ columns fot the "trivial" cosntrints. However, the puzzle has other constrints too, which are not yet represented in the above example.
 
 #### Elements
 
@@ -202,10 +221,9 @@ Elements of ***S*** could simply be paris of attribute and house number. In othe
 
 For a classical 5x5 Zebra puzzle we have $5 \cdot 5 \cdot 5 = 125$ elements/rows to choose from.
 
-### 2.2 First challenge : "identity" constraints
+### 3.2 First challenge : "identity" constraints
 
-On the face of it, the rerpesentation proposed above immediately fails to be able to rerpesent the "identity" constraints.
-After all, the rerpesetnation is designed mostly towards ensuring each attribute is used only once and, but identity type constraint requires two different attributes to be used. In other word this would be a constraint that is fulfuilled not by "one and exactly one" element of *S* but by two elements.
+On the face of it, the rerpesentation proposed above immediately fails to be able to rerpesent the "identity" constraints. After all, the rerpesetnation is designed mostly towards ensuring each attribute is used only once and, but identity type constraint requires two different attributes to be used. In other word this would be a constraint that is fulfuilled not by "one and exactly one" element of *S* but by two elements.
 
 Let's take for example the statement "*Coffee is drunk in the green house*". Given the proposed ***S***, this "constraint" requires us to choose a pair of elements
 * either "*`drink` = `coffee` lives in house `1`*" and "*`house color` = `green` lives in house `1`*"
@@ -256,7 +274,7 @@ I will discuss later on how we can reduce that number when generating the sparse
 
 At the same time, since we cosntructed the elements of ***S*** in this "columnar" approach such that one column already has exactly one attributefro meach of the avaialble dimensions, the "trivial" constraints can ignore the """house completness and unambiguity" cosntraints, leaving us with only **25** "trivial" columns
 
-### 2.3 Second challenge : directed neighbor constraints
+### 3.3 Second challenge : directed neighbor constraints
 
 Now let's turn our attention to the next, as of yet unhandled, type of cosntraitn - the directed neighbor constraint. I chose to describe this one beforethe non-directional subtype, because it is the next one I was able to figure out how to represent in the sparse matrix. Even though it is used only once in the original puzzle text.
 
@@ -274,7 +292,7 @@ We can see that we have the following options:
 
 we basically have four ways of satisfying the constraint. And the chosen elements of ***S**** are complimentary. Choosing where to put the "green" house directly implies where the "iovry" one has to be.
 
-#### Solution : additional matrix columns
+#### Workaround : additional matrix columns
 
 Intuitively by playing around with the concept of key-lock image of the constraints, as well as noting that the complimentary nature of the selected items can be understood that selecting one element both implies selecting another **and** ***not*** selecting several others, I came to and abstract representation of the neighbor constraint that follows.
 
@@ -355,13 +373,13 @@ $S_{!A,B,N5}$ = "`ivory` is the color of the house number `5`"
 |-|:-:|:-:|:-:|:-:|
 |$S_{!A,B,N5}$|⬤|⬤|⬤|⬤|
 
-### 2.4. Third challenge : non-directed neighbor constraints
+### 3.4. Third challenge : non-directed neighbor constraints
 
 Finally the non-directed neighbors constraints. Initially they look similar to the previous ones. Albeit with onekey difference: selecting one of the neighbors does not unambiguously let us determine the other neighboring attribute. Let's consider the following example:
 
-> "*The Norwegian lives next to the blue house*"
+> "*The **Norwegian** lives next to the **blue** house*"
 
-we assign the attributes as:
+Here we assign the attributes as:
 
 * A = "`nationality` is `Norwegian`"
 * B = "`house color` is `blue`"
@@ -381,7 +399,7 @@ This time we can see that selecting where to place the first attribute sometimes
 
 We need to be able to somehow select one of the options and then (if needed) its "sub-option". 
 
-#### Solution : even mode additional matrix columns and rows
+#### Workaround : even mode additional matrix columns and rows
 
 Note: all sub-options can be grouped pairwise and rearranged on the above list. Like that:
 * the two neightobrs in question live in houses `1` and `2`
@@ -443,14 +461,14 @@ This representation is even harder to translate back int onatural language, but 
 
 As with the directed neighbors, care needs to be taken to omit invalid combinations of house indexes when cosntructing the synthetic rows and atomic constraint columns.
 
-## 3. Implementation considerations
+## 4. Implementation considerations
 
 After defining the problem and how to model as an Exact Cover problem and how it can be represented in the X algorithm's sparse matrix, we need to consider a few practical details of how to actually implement it in code. First and foremost:
 - how to effectively create the rows representing elements of ***S***
 - how to effectively creeate the columsn representingthe constraints
 - how to match the rows agains the appropriate columns (or vice versa)
 
-### 3.1. Number of combinations and "row culling"
+### 4.1. Number of combinations and "row culling"
 
 As mentioned in 2.2, if we switch from a "naive" representation (***S*** elements are tiles on the solution "grid") to a "columnar" representation (***S*** elements are full columns of the solution grid) we increase the collection cardinality dramatically. For the classic 5x5x5 puzzle it goes from 125 to ~15k. This is because we have to generate all possible combinations of all the dimension values.
 
@@ -523,7 +541,7 @@ flowchart LR
 
 In the tested example such an approach of "culling" invalid elementary elements resutled in reducing the size od ***S*** by two orders of magnitude to around 300 entries. 
 
-### 3.2. Lookup and filling in the sparse matrix
+### 4.2. Lookup and filling in the sparse matrix
 
 As mentioned in 2.2 and 2.3 to properly represent the two different types of neighbor constraints, we alo need to cosntruct several addtional constraint columns. For a puzzle with *n* houses weneed *n-1* additional columns for each directed neighbor constraint and *n* for each undirected neighbor constraint. We also need *n* additional "keying" rows for each undirected neighbor constraint.
 
@@ -552,24 +570,18 @@ Because of how the matrix is filled in, even with these lookup dictionaries for 
 
 Given that each "trivial" element of ***S*** hast 5 attributes, we would have to repeat that process $\binom{5}{2} = 10$ times for each element.
 
-## 4. Observations
+## 5. Observations
 
 I have ran the final script against a few different puzzle formulations:
 * [input_1_einstein.yml](input_1_einstein.yml) - "Who's got a Fish?" riddle found in [Polish wikipedia](https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Jedno_z_mo%C5%BCliwych_sformu%C5%82owa%C5%84) (accessed: 2026-01-12, translated by me)
 * [input_2_einstein.yml](input_2_einstein.yml) - "Who's got a Zebra?" riddle found in [English wikipedia](https://en.wikipedia.org/wiki/Zebra_Puzzle#Description) (accessed: 2026-03-07)
 * [input_3_einstein.yml](input_3_einstein.yml) - "Ships" riddle found on [brainden.com](http://brainden.com/einsteins-riddles.htm) (accessed: 2026-03-08, **NOTE** site does not support https)
 
-I ran the program on 6 core AMD Ryzen 5 7640U with 32GM memory. For each of the riddles the program
-(with culling of trivial rows) was able to find the correct solution well within <1s.
-When run without row culling the "fish" riddle did not finish within 90 minutes, after which
-I aborted further experiments.
+I ran the program on 6 core AMD Ryzen 5 7640U with 32GM memory. For each of the riddles the program (with culling of trivial rows) was able to find the correct solution well within <1s. When run without row culling the "fish" riddle did not finish within 90 minutes, after which I aborted further experiments.
 
-### 4.1. Solution times
+### 5.1. Solution times
 
-Because of how YML is read, the dimensions, attributes and contraitns are added to the puzzle definition
-in different order each time the puzzle is ran. So the times presented here are averages of 10 runs for
-runs wiht trivial row culling, and single runs for runs without row culling. The overall time is so much
-longer without culling that it was not worth the wait to get precise numbers.
+Because of how YML is read, the dimensions, attributes and contraitns are added to the puzzle definition in different order each time the puzzle is ran. So the times presented here are averages of 10 runs for runs wiht trivial row culling, and single runs for runs without row culling. The overall time is so much longer without culling that it was not worth the wait to get precise numbers.
 
 |riddle|avg. backtracks|avg. setup<sup>1</sup> time|avg. search<sup>2</sup> time|avg. total<sup>3</sup> time|
 |-|-|-|-|-|
@@ -581,34 +593,55 @@ longer without culling that it was not worth the wait to get precise numbers.
 <sup>2</sup>) time to find the solution once the matrix is ready \
 <sup>3</sup>) total time from start of program to output of the solution
 
-### 4.2. More advanced puzzles
+### 5.2. More advanced puzzles
 
-When looking for more examples of the Zebra puzzle, I found several puzzles
-which extended the basic idea in new ways. Ways which included modifications on the alredy
-idenfitied types of cosntraints.
+When looking for more examples of the Zebra puzzle, I found several puzzles which extended the basic idea in new ways. Ways which included modifications on the alredy idenfitied types of cosntraints.
 
-* Puzzles where except for immediate neighbors (directed or non-directed) the neighbors can be also
-  separated by an arbitrary number of other entities. For example this
+* Puzzles where except for immediate neighbors (directed or non-directed) the neighbors can be also   separated by an arbitrary number of other entities. For example this
   [hard Daily Zebra puzzle #841](https://www.zebrapuzzles.com/p/2XJRpQtw/#hard)(accessed: 2026-03-25)
   contains the following cosntraint:
   > "*The influencer who has been to Thailand is **somewhere to the right** of the woman wearing a Pink shirt.*"
-  None of the methids to encode "neighbor" relationships prposed above can handle such a loose case at this moment.
-* Puzzles where the is no order imposed on the entities. For example the "Meeting" puzzle found on
-  [brainden.com](http://brainden.com/einsteins-riddles.htm). In this puzzle none of the clues mention
-  any kind of order or placement of the entities in space. Both the "naive" and "columnar" representations
-  proposed above implicitly assumed there to be a dedicated spatial dimension - order of the entities. In
-  this case the puzzle simply cannot be represented in any meaningful way. If we still require there to be
-  ordered places for thee entities, the entities would have to be allowed to be in any of the positions 
-  without any constraints. This would dramatically expand the number of possible combinations and the size
-  of the search tree.
 
-The new cosntraint types introduced by those puzzles are not covered by the model porposed so far.
-This means that new approaches need to be found to solve these puzzles.
+  None of the methods to encode "neighbor" relationships prposed above can handle such a loose case at this moment.
+* Puzzles where the is no order imposed on the entities. For example the "Meeting" puzzle found on   [brainden.com](http://brainden.com/einsteins-riddles.htm). In this puzzle none of the clues mention  any kind of order or placement of the entities in space. Both the "naive" and "columnar" representations   proposed above implicitly assumed there to be a dedicated spatial dimension - order of the entities. In  this case the puzzle simply cannot be represented in any meaningful way. If we still require there to be ordered places for thee entities, the entities would have to be allowed to be in any of the positions without any constraints. This would dramatically expand the number of possible combinations and the size of the search tree.
 
-## 5. Conclusion and next steps
+The new cosntraint types introduced by those puzzles are not covered by the model porposed so far. This means that new approaches need to be found to solve these puzzles.
 
-#### Going back to the "naive" approach
+## 6. Conclusion and next steps
 
+### 6.1. Validity of the solution
+
+As is demonstrated with the implemented code, it is possible to model the Zebra Puzzle as an Exact Cover problem and solve it using Knuth's X algorithm. The solution runtimes for the sparse matrix itself approach benchmark times cited in Wikipedia: "*The execution time of a program [which implements the elgorithm for evaluating rules in an optimized order] written in Scala running on a 3 GHz processor is approximately 1 millisecond.*"[^10]
+
+### 6.2. New concepts
+
+Aa for the sparse matrix representation of the Zebra Pizzle, most notably I've learned that:
+- Sometimes a constraint that is easy to express in a natural language, might need to be translated into a system of interdependedn rows and columns in the matrix. I called it here the "key and lock" approach and used it to express the "neighbor" constraints.
+- In a way there can be a tradeoff between more elaborate elements in ***S*** and having more constraints. Consider how using the "columnar" approach lets us drop some ofthe constraint columns in the matrix
+
+### 6.3. Areas for improvement
+
+On the other hand however, the workarounds I have implemented have some drawbacks:
+
+- using the "columnar" approach also meant that cardinality of ***S*** increased esponentially.
+- Following this increase, the algorithm runs orders of magnitude slower
+- To counteractthat I had to implement "row culling" so the matrix size and search tree size don't blow up
+- Another drawback of the columnar approach was the amount of nested loops that needed to be perfomred to properly fill in the matrix, This, agian, is a good candidate for optimisation in the program
+
+And finally, current approach does not let me model the more complex puzzles of this type. Ones where the neighbor constratints are even more vague or where there is no "order" between the entities.
+
+### 6.4 Going back to the "naive" approach
+
+Having worked long enough on how to represent the directed andnon-directed neighbor constraints in the matrix, I reliased tha the "identity" cosntraints are nothing but another flavor of a "neighbor" constraint. After all a condition like:
+
+> "*`Kools` are smoked in the `yellow` house.*"
+
+Can be rewritten as
+
+> "*The person who smokes `Kools` and the person who lives in the `yellow` house are one person who `lives in the one house`*"
+
+
+After pouring time and heart into following my inital idea for the "columnar" approach, which both helped and hindered me at times, I realised there is a simpler way! A full circle moment.
 
 [^1]: https://en.wikipedia.org/wiki/Constraint_satisfaction_problem
 [^2]: https://en.wikipedia.org/wiki/Set_cover_problem#Related_problems
@@ -619,3 +652,8 @@ This means that new approaches need to be found to solve these puzzles.
 [^7]: https://www.wikihow.com/Einstein%27s-Riddle
 [^8]: https://medium.com/brainzilla/einsteins-riddle-step-by-step-tutorial-on-how-to-solve-the-world-s-hardest-puzzle-46bcf054a7c7
 [^9]: https://youtu.be/HaNSHQOrSX8?t=1255
+[^10]: https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Algorytm_ewaluuj%C4%85cy_regu%C5%82y_w_zoptymalizowanej_kolejno%C5%9Bci
+[^11]: https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Algorytm_brute_force
+[^12]: https://pl.wikipedia.org/wiki/Zagadka_Einsteina#Algorytm_ewaluuj%C4%85cy_regu%C5%82y
+[^13]: https://github.com/AlloyTools/models/blob/master/puzzles/einstein/einstein-wikipedia.als
+[^14]: https://rosettacode.org/wiki/Zebra_puzzle
