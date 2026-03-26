@@ -2,7 +2,7 @@
 
 ## Abstract
 
-This document explains my approach and work on the latter problem - the Zebra Puzzles.
+Lead by my long standing interest in puzzles, math and programming, I have over time researched methods of solving various logical puzzles and riddles programatically. This article documents my pet project in which I tried to solve the following problem: Can the so called "Zebra Puzzles" be modelled solved using Knuth's X algorithm. The article documents my cocneptual work on representing the zebra puzzle conditions as a set of elements (rows) and constraitns (columns) in a sparse matrix which is used by the X algorithm. I describe the various challenges I encountered and workarounds I came up with. along the way I believe i got a better understandign of Knuth's method, for example conditions which are simple to express in a natural language might need whole systems of matrix rows and columns to encode them. I alos document the results of the program I wrote to implement my concept, which proves that the X algortithm is a viable method in this case. Finally, I list ideas for improvements to my apporach that I hope to explore in the next iteration iof this project.
 
 ## 1. Motivation
 
