@@ -1,48 +1,80 @@
+# The Englishman lives in the red house.
+
 - nation: England
   color : red
+
+# The Spaniard owns the dog.
 
 - nation : Spain
   pet : dog
 
+# Coffee is drunk in the green house.
+
+
 - drink : coffee
   color : green
 
+# The Ukrainian drinks tea.
+
 - nation: Ukraine
   drink : tea
+
+# The green house is immediately to the right of the ivory house.
 
 - _right:
     - color : green
     - color : ivory
 
+# The Old Gold smoker owns snails.
+
+
 - smoke: old_gold
   pet : snails
+
+# Kools are smoked in the yellow house.
 
 - smoke : kools
   color : yellow
 
+# Milk is drunk in the middle house.
+
 - _# : 3
   drink : milk
 
+# The Norwegian lives in the first house.
+
 - nation : Norway
   _# : 1
+
+# The man who smokes Chesterfields lives in the house next to the man with the fox.
 
 - _adj:
   - smoke : chesterfields
   - pet : fox
 
+# Kools are smoked in the house next to the house where the horse is kept.
+
 - _adj:
   - smoke : kools
   - pet : horse
 
+# The Lucky Strike smoker drinks orange juice.
+
 - smoke : lucky_strike
   drink : orange_juice
+
+# The Japanese smokes Parliaments.
 
 - nation : Japan
   smoke : parliments
 
+# The Norwegian lives next to the blue house.
+
 - _adj:
   - nation : Norway
   - color : blue
+
+# Now, who drinks water? Who owns the zebra? 
 
 - _question:
     - pet: zebra

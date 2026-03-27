@@ -699,6 +699,15 @@ Can be rewritten as
 
 After pouring time and heart into following my inital idea for the "columnar" approach, which both helped and hindered me at times, I must acknowledge there is a simpler way. A full circle moment.
 
+## 7. Resources
+
+- [Input formt description](/zebra/inputs/input_format.md) - a document describing how to cosntruct an input file for the solver.
+- examples of inputs:
+  - [input_1_einstein.yml](input_1_einstein.yml) - "Who's got a Fish?" riddle
+  - [input_2_einstein.yml](input_2_einstein.yml) - "Who's got a Zebra?" riddle 
+  - [input_3_einstein.yml](input_3_einstein.yml) - "Ships" riddle
+
+
 [^1]: https://en.wikipedia.org/wiki/Constraint_satisfaction_problem
 [^2]: https://en.wikipedia.org/wiki/Set_cover_problem#Related_problems
 [^3]: https://en.wikipedia.org/wiki/Exact_cover
