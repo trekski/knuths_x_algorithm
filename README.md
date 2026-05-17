@@ -1,6 +1,6 @@
 
 
-In this repositry I keep progrmas that I wrote to implement Knuth's X algorithm in order to better understand how the algorithm works. I started by creating a simple Sudoku solver. Then, when I got a better grip on the X algorithm, I attempted applying it to solve the so called [Zebra Puzzles](https://en.wikipedia.org/wiki/Zebra_Puzzle) (a.k.a Einstein's Riddle)
+In this repositry I keep programs that I wrote to implement Knuth's X algorithm in order to better understand how the algorithm works. I started by creating a simple Sudoku solver. Then, when I got a better grip on the X algorithm, I attempted applying it to solve the so called [Zebra Puzzles](https://en.wikipedia.org/wiki/Zebra_Puzzle) (a.k.a Einstein's Riddle)
 
 *Repository contents*
 
